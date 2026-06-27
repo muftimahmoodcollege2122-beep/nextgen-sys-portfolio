@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrations — Nextgen Sys Admin</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  body { background: #0d1117; color: rgba(255,255,255,.85); }
+  .admin-nav { display: flex; align-items: center; justify-content: space-between; padding: 0 4vw; height: 60px; background: #0d1117; border-bottom: 1px solid rgba(255,255,255,.08); position: sticky; top: 0; z-index: 100; }
+  .admin-logo { font-weight: 700; font-size: .9rem; color: var(--white); }
+  .admin-logo span { color: var(--gold); }
+  .admin-nav-links { display: flex; gap: 1.5rem; }
+  .admin-nav-links a { font-size: .8rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .2s; }
+  .admin-nav-links a:hover { color: var(--white); }
+  /* Login */
+  .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-box { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 2.5rem; width: 100%; max-width: 380px; }
+  .login-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--white); margin-bottom: .4rem; }
+  .login-sub { font-size: .82rem; color: rgba(255,255,255,.4); margin-bottom: 2rem; }
+  .login-box label { font-size: .76rem; font-weight: 500; color: rgba(255,255,255,.6); display: block; margin-bottom: .35rem; }
+  .login-input { font-family: 'DM Sans', sans-serif; font-size: .88rem; padding: .65rem .9rem; border: 1.5px solid rgba(255,255,255,.1); border-radius: var(--radius); background: rgba(255,255,255,.05); color: var(--white); outline: none; width: 100%; transition: border-color .2s; }
+  .login-input:focus { border-color: var(--gold); }
+  .login-btn { width: 100%; padding: .85rem; background: var(--gold); color: var(--white); border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 600; cursor: pointer; margin-top: 1.2rem; transition: background .2s; }
+  .login-btn:hover { background: #b07e2a; }
+  .login-err { font-size: .78rem; color: #f87171; margin-top: .5rem; text-align: center; min-height: 1rem; }
+  /* Main */
+  .main-wrap { max-width: 1200px; margin: 0 auto; padding: 2.5rem 4vw; }
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .stat-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 1.2rem 1.4rem; }
+  .stat-card .n { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--white); line-height: 1; }
+  .stat-card .n.gold { color: var(--gold); }
+  .stat-card .n.green { color: #4ade80; }
+  .stat-card .n.blue { color: #60a5fa; }
+  .stat-card .l { font-size: .72rem; color: rgba(255,255,255,.4); margin-top: .3rem; }
+  /* Filters */
+  .filters { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.4rem; align-items: center; }
+  .f-input { font-family: 'DM Sans', sans-serif; font-size: .82rem; padding: .5rem .85rem; border: 1.5px solid rgba(255,255,255,.1); border-radius: 6px; background: rgba(255,255,255,.05); color: var(--white); outline: none; transition: border-color .2s; }
+  .f-input::placeholder { color: rgba(255,255,255,.3); }
+  .f-input:focus { border-color: var(--gold); }
+  .f-input option { background: #1a1a1a; color: var(--white); }
+  select.f-input { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .85rem center; padding-right: 2.2rem; }
+  input[type=search].f-input { min-width: 220px; }
+  .spacer { flex: 1; }
+  /* Table */
+  .table-wrap { background: rgba(255,255,255,.02); border-radius: 10px; border: 1px solid rgba(255,255,255,.08); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  thead tr { background: rgba(255,255,255,.03); }
+  th { padding: .65rem 1rem; text-align: left; font-size: .64rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.35); border-bottom: 1px solid rgba(255,255,255,.08); white-space: nowrap; }
+  td { padding: .75rem 1rem; border-bottom: 1px solid rgba(255,255,255,.05); vertical-align: top; color: rgba(255,255,255,.75); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,.03); }
+  .inst-name { font-weight: 600; color: var(--white); }
+  .inst-meta { font-size: .72rem; color: rgba(255,255,255,.35); margin-top: .12rem; }
+  .plan-pill { display: inline-block; padding: .16rem .6rem; border-radius: 100px; font-size: .64rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+  .plan-pill.silver { background: rgba(107,114,128,.2); color: rgba(255,255,255,.5); }
+  .plan-pill.gold { background: rgba(201,147,58,.2); color: var(--gold); }
+  .plan-pill.diamond { background: rgba(96,165,250,.15); color: #93c5fd; }
+  .status-pill { display: inline-flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 500; white-space: nowrap; }
+  .status-pill::before { content: ''; display: block; width: 6px; height: 6px; border-radius: 50%; }
+  .status-pill.new::before { background: var(--gold); }
+  .status-pill.contacted::before { background: #60a5fa; }
+  .status-pill.demo::before { background: #facc15; }
+  .status-pill.converted::before { background: #4ade80; }
+  .status-pill.closed::before { background: #f87171; }
+  .empty { text-align: center; padding: 4rem 2rem; color: rgba(255,255,255,.25); }
+  .empty p { font-size: .88rem; }
+  .loading { text-align: center; padding: 3rem; color: rgba(255,255,255,.25); font-size: .85rem; }
+  /* Action buttons */
+  .btn-tbl { padding: .35rem .8rem; font-size: .72rem; font-weight: 500; border-radius: 5px; border: 1px solid rgba(255,255,255,.12); background: transparent; color: rgba(255,255,255,.6); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; }
+  .btn-tbl:hover { background: rgba(255,255,255,.08); color: var(--white); }
+  /* Detail Drawer */
+  .drawer-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 300; }
+  .drawer-bg.open { display: block; }
+  .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 480px; max-width: 95vw; background: #141414; border-left: 1px solid rgba(255,255,255,.08); overflow-y: auto; padding: 2rem; transform: translateX(100%); transition: transform .3s ease; }
+  .drawer-bg.open .drawer { transform: none; }
+  .drawer-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.8rem; }
+  .drawer-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--white); line-height: 1.2; }
+  .drawer-close { background: none; border: none; color: rgba(255,255,255,.4); font-size: 1.2rem; cursor: pointer; padding: .2rem; }
+  .drawer-close:hover { color: var(--white); }
+  .dsec { font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.25); border-bottom: 1px solid rgba(255,255,255,.08); padding-bottom: .4rem; margin: 1.5rem 0 .8rem; }
+  .dsec:first-child { margin-top: 0; }
+  .dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+  .drow { display: flex; flex-direction: column; }
+  .drow.full { grid-column: span 2; }
+  .dl { font-size: .64rem; color: rgba(255,255,255,.3); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+  .dv { font-size: .84rem; color: var(--white); font-weight: 500; margin-top: .12rem; }
+  .dv.muted { font-weight: 400; color: rgba(255,255,255,.5); white-space: pre-wrap; line-height: 1.65; }
+  .status-select { font-family: 'DM Sans', sans-serif; font-size: .82rem; padding: .5rem .7rem; border: 1.5px solid rgba(255,255,255,.12); border-radius: var(--radius); background: rgba(255,255,255,.05); color: var(--white); outline: none; width: 100%; transition: border-color .2s; }
+  .status-select:focus { border-color: var(--gold); }
+  .status-select option { background: #1a1a1a; }
+  .drawer-actions { display: flex; gap: .7rem; margin-top: 2rem; }
+  .wa-btn { display: inline-flex; align-items: center; gap: .5rem; padding: .6rem 1.1rem; background: #25d366; color: var(--white); border-radius: var(--radius); font-size: .82rem; font-weight: 600; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: background .2s; }
+  .wa-btn:hover { background: #1da851; }
+  .del-btn { padding: .6rem 1rem; background: rgba(248,113,113,.12); color: #f87171; border: 1px solid rgba(248,113,113,.2); border-radius: var(--radius); font-size: .82rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; }
+  .del-btn:hover { background: rgba(248,113,113,.2); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div style="position:fixed;inset:0;background:#0d1117;display:flex;align-items:center;justify-content:center;padding:2rem;z-index:500">
+    <div class="login-box">
+      <div class="login-title">Admin Access</div>
+      <div class="login-sub">Nextgen Sys · Registrations Dashboard</div>
+      <label>Admin Token</label>
+      <input class="login-input" type="password" id="token-input" placeholder="Enter admin token" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Sign In</button>
+      <div class="login-err" id="login-err"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN DASHBOARD (hidden until login) -->
+<div id="dashboard" style="display:none">
+  <nav class="admin-nav">
+    <div class="admin-logo">Nextgen <span>Sys.</span> — Admin</div>
+    <div class="admin-nav-links">
+      <a href="/" target="_blank">View Site</a>
+      <a href="/register" target="_blank">Register Form</a>
+      <a href="#" onclick="doLogout()">Sign Out</a>
+    </div>
+  </nav>
+
+  <div class="main-wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.8rem;flex-wrap:wrap;gap:1rem">
+      <div>
+        <h1 style="font-family:'DM Serif Display',serif;font-size:1.7rem;color:var(--white)">Registrations</h1>
+        <p style="font-size:.8rem;color:rgba(255,255,255,.35);margin-top:.2rem">All institution sign-up requests</p>
+      </div>
+      <button class="btn btn-gold btn-sm" onclick="exportCSV()">Export CSV</button>
+    </div>
+
+    <div class="stats" id="stats-row">
+      <div class="stat-card"><div class="n" id="s-total">—</div><div class="l">Total Registrations</div></div>
+      <div class="stat-card"><div class="n" id="s-new">—</div><div class="l">New (uncontacted)</div></div>
+      <div class="stat-card"><div class="n gold" id="s-gold">—</div><div class="l">Gold Plan</div></div>
+      <div class="stat-card"><div class="n green" id="s-converted">—</div><div class="l">Converted</div></div>
+      <div class="stat-card"><div class="n blue" id="s-diamond">—</div><div class="l">Diamond Plan</div></div>
+    </div>
+
+    <div class="filters">
+      <input type="search" class="f-input" placeholder="Search name, city, contact..." id="f-search" oninput="loadRegistrations()">
+      <select class="f-input" id="f-plan" onchange="loadRegistrations()">
+        <option value="">All Plans</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
+        <option value="diamond">Diamond</option>
+      </select>
+      <select class="f-input" id="f-status" onchange="loadRegistrations()">
+        <option value="">All Statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+        <option value="demo">Demo Given</option>
+        <option value="converted">Converted</option>
+        <option value="closed">Closed</option>
+      </select>
+      <div class="spacer"></div>
+      <button class="btn-tbl" onclick="loadRegistrations()">Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Institution</th>
+            <th>Plan</th>
+            <th>Contact</th>
+            <th>City</th>
+            <th>Submitted</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="table-body"><tr><td colspan="7"><div class="loading">Loading...</div></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL DRAWER -->
+<div class="drawer-bg" id="drawer-bg" onclick="closeDrawer(event)">
+  <div class="drawer" id="drawer">
+    <div class="drawer-hdr">
+      <div class="drawer-title" id="d-title">—</div>
+      <button class="drawer-close" onclick="closeDrawerDirect()">✕</button>
+    </div>
+    <div id="d-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let adminToken = '';
+let allRegs = [];
+let currentRef = null;
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const token = document.getElementById('token-input').value.trim();
+  if(!token) { document.getElementById('login-err').textContent = 'Enter the admin token.'; return; }
+  document.getElementById('login-err').textContent = '';
+  try {
+    const res = await fetch('/api/admin/stats', { headers: { 'x-admin-token': token } });
+    if(res.status === 401) { document.getElementById('login-err').textContent = 'Invalid token.'; return; }
+    adminToken = token;
+    sessionStorage.setItem('ngs_admin_token', token);
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    init();
+  } catch(e) { document.getElementById('login-err').textContent = 'Connection error. Is the server running?'; }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('ngs_admin_token');
+  location.reload();
+}
+
+// ── API helper ─────────────────────────────────────────────────────────────
+async function api(path, method='GET', body=null) {
+  const opts = { method, headers: { 'x-admin-token': adminToken, 'Content-Type': 'application/json' } };
+  if(body) opts.body = JSON.stringify(body);
+  const res = await fetch(path, opts);
+  return res.json();
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+async function init() {
+  await loadStats();
+  await loadRegistrations();
+  setInterval(loadStats, 30000); // refresh stats every 30s
+}
+
+async function loadStats() {
+  try {
+    const d = await api('/api/admin/stats');
+    if(!d.success) return;
+    document.getElementById('s-total').textContent = d.total;
+    document.getElementById('s-new').textContent = d.new;
+    document.getElementById('s-gold').textContent = d.gold;
+    document.getElementById('s-converted').textContent = d.converted;
+    document.getElementById('s-diamond').textContent = d.diamond;
+  } catch(e) {}
+}
+
+async function loadRegistrations() {
+  const search = document.getElementById('f-search').value;
+  const plan = document.getElementById('f-plan').value;
+  const status = document.getElementById('f-status').value;
+  const params = new URLSearchParams();
+  if(search) params.set('search', search);
+  if(plan) params.set('plan', plan);
+  if(status) params.set('status', status);
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '<tr><td colspan="7"><div class="loading">Loading...</div></td></tr>';
+  try {
+    const d = await api('/api/admin/registrations?' + params.toString());
+    allRegs = d.data || [];
+    if(!allRegs.length) {
+      tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><p>No registrations found.</p></div></td></tr>';
+      return;
+    }
+    tbody.innerHTML = allRegs.map(r => `
+      <tr>
+        <td>
+          <div class="inst-name">${esc(r.institutionName)}</div>
+          <div class="inst-meta">${esc(r.institutionType)} · ${esc(r.studentCount)} students</div>
+        </td>
+        <td><span class="plan-pill ${r.plan}">${r.plan}</span></td>
+        <td>
+          <div style="font-weight:600;color:var(--white)">${esc(r.contactName)}</div>
+          <div style="font-size:.72rem;color:var(--gold)">${esc(r.phone)}</div>
+        </td>
+        <td>${esc(r.city)}</td>
+        <td style="white-space:nowrap">${r.submittedAt ? new Date(r.submittedAt).toLocaleDateString('en-PK') : '—'}</td>
+        <td><span class="status-pill ${r.status}">${r.status}</span></td>
+        <td><button class="btn-tbl" onclick="openDetail('${r.ref}')">View</button></td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty"><p>Failed to load. Check server.</p></div></td></tr>';
+  }
+}
+
+function esc(s) {
+  if(!s) return '—';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ── Drawer ─────────────────────────────────────────────────────────────────
+function openDetail(ref) {
+  const r = allRegs.find(x => x.ref === ref);
+  if(!r) return;
+  currentRef = ref;
+  document.getElementById('d-title').textContent = r.institutionName;
+  const phone = r.phone.replace(/[^0-9]/g,'').replace(/^0/,'92');
+  const waMsg = encodeURIComponent(`Assalamu Alaikum! This is Hassan from Nextgen Sys. I received your registration for ${r.institutionName}. I would like to schedule a free demo at your convenience.`);
+  document.getElementById('d-body').innerHTML = `
+    <div class="dsec">Institution</div>
+    <div class="dgrid">
+      <div class="drow full"><div class="dl">Name</div><div class="dv">${esc(r.institutionName)}</div></div>
+      <div class="drow"><div class="dl">Type</div><div class="dv">${esc(r.institutionType)}</div></div>
+      <div class="drow"><div class="dl">Board</div><div class="dv">${esc(r.board)}</div></div>
+      <div class="drow"><div class="dl">Students</div><div class="dv">${esc(r.studentCount)}</div></div>
+      <div class="drow"><div class="dl">Staff</div><div class="dv">${esc(r.staffCount)}</div></div>
+      <div class="drow full"><div class="dl">Address</div><div class="dv">${esc(r.address)}</div></div>
+      <div class="drow"><div class="dl">City</div><div class="dv">${esc(r.city)}</div></div>
+      <div class="drow"><div class="dl">Province</div><div class="dv">${esc(r.province)}</div></div>
+    </div>
+    <div class="dsec">Contact Person</div>
+    <div class="dgrid">
+      <div class="drow"><div class="dl">Name</div><div class="dv">${esc(r.contactName)}</div></div>
+      <div class="drow"><div class="dl">Designation</div><div class="dv">${esc(r.contactRole)}</div></div>
+      <div class="drow"><div class="dl">WhatsApp</div><div class="dv" style="color:var(--gold)">${esc(r.phone)}</div></div>
+      <div class="drow"><div class="dl">Email</div><div class="dv">${esc(r.email)}</div></div>
+    </div>
+    <div class="dsec">Plan & Preferences</div>
+    <div class="dgrid">
+      <div class="drow"><div class="dl">Plan</div><div class="dv" style="text-transform:capitalize">${esc(r.plan)}</div></div>
+      <div class="drow"><div class="dl">Start Preference</div><div class="dv">${esc(r.startPreference)}</div></div>
+      <div class="drow full"><div class="dl">Requirements</div><div class="dv muted">${esc(r.requirements) || '—'}</div></div>
+    </div>
+    <div class="dsec">Status & Notes</div>
+    <div class="dgrid">
+      <div class="drow"><div class="dl">Reference</div><div class="dv" style="color:var(--gold)">${r.ref}</div></div>
+      <div class="drow"><div class="dl">Submitted</div><div class="dv">${r.submittedAt ? new Date(r.submittedAt).toLocaleString('en-PK') : '—'}</div></div>
+      <div class="drow full">
+        <div class="dl" style="margin-bottom:.35rem">Pipeline Status</div>
+        <select class="status-select" onchange="updateStatus('${r.ref}', this.value)">
+          <option value="new"       ${r.status==='new'       ?'selected':''}>New</option>
+          <option value="contacted" ${r.status==='contacted' ?'selected':''}>Contacted</option>
+          <option value="demo"      ${r.status==='demo'      ?'selected':''}>Demo Given</option>
+          <option value="converted" ${r.status==='converted' ?'selected':''}>Converted</option>
+          <option value="closed"    ${r.status==='closed'    ?'selected':''}>Closed</option>
+        </select>
+      </div>
+    </div>
+    <div class="drawer-actions">
+      <a href="https://wa.me/${phone}?text=${waMsg}" target="_blank" class="wa-btn">WhatsApp</a>
+      <button class="del-btn" onclick="deleteReg('${r.ref}')">Delete</button>
+    </div>
+  `;
+  document.getElementById('drawer-bg').classList.add('open');
+}
+
+function closeDrawer(e) {
+  if(e.target === document.getElementById('drawer-bg')) closeDrawerDirect();
+}
+function closeDrawerDirect() {
+  document.getElementById('drawer-bg').classList.remove('open');
+  currentRef = null;
+}
+
+async function updateStatus(ref, status) {
+  try {
+    const d = await api('/api/admin/registrations/' + ref, 'PATCH', { status });
+    if(d.success) {
+      showToast('Status updated to "' + status + '"', 'ok');
+      const r = allRegs.find(x => x.ref === ref);
+      if(r) r.status = status;
+      loadRegistrations(); loadStats();
+    } else showToast(d.message || 'Update failed.', 'err');
+  } catch(e) { showToast('Connection error.', 'err'); }
+}
+
+async function deleteReg(ref) {
+  if(!confirm('Delete this registration? This cannot be undone.')) return;
+  try {
+    const d = await api('/api/admin/registrations/' + ref, 'DELETE');
+    if(d.success) {
+      showToast('Registration deleted.', 'ok');
+      closeDrawerDirect();
+      loadRegistrations(); loadStats();
+    } else showToast(d.message || 'Delete failed.', 'err');
+  } catch(e) { showToast('Connection error.', 'err'); }
+}
+
+function exportCSV() {
+  if(!allRegs.length) { showToast('No registrations to export.', 'err'); return; }
+  const headers = ['Ref','Plan','Institution','Type','Board','Students','Staff','Address','City','Province','Contact','Role','Phone','Email','Start','Requirements','Status','Submitted'];
+  const rows = allRegs.map(r => [r.ref,r.plan,r.institutionName,r.institutionType,r.board,r.studentCount,r.staffCount,r.address,r.city,r.province,r.contactName,r.contactRole,r.phone,r.email,r.startPreference,r.requirements,r.status,r.submittedAt].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'nextgen_registrations_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  showToast('CSV exported.', 'ok');
+}
+
+// ── Session restore ────────────────────────────────────────────────────────
+const saved = sessionStorage.getItem('ngs_admin_token');
+if(saved) {
+  adminToken = saved;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  init();
+}
+</script>
+</body>
+</html>

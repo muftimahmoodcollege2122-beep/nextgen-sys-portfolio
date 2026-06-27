@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register Your Institution — Nextgen Sys</title>
+<link rel="stylesheet" href="/styles.css">
+<style>
+  body { background: var(--paper); }
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 5vw 5rem; padding-top: calc(64px + 2.5rem); display: grid; grid-template-columns: 1fr 1.55fr; gap: 4rem; align-items: start; }
+  /* Left */
+  .lp-title { font-size: clamp(1.6rem, 2.8vw, 2.4rem); margin-bottom: 1rem; }
+  .lp-desc { font-size: .88rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
+  .plan-cards { display: flex; flex-direction: column; gap: .7rem; }
+  .pc {
+    border: 1.5px solid var(--line); border-radius: 10px; padding: .9rem 1.1rem;
+    background: var(--white); cursor: pointer; display: flex; align-items: center; gap: .9rem;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .pc:hover { border-color: var(--gold); }
+  .pc.active { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-lt); }
+  .pc-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line); flex-shrink: 0; transition: all .2s; display: flex; align-items: center; justify-content: center; }
+  .pc.active .pc-radio { border-color: var(--gold); background: var(--gold); }
+  .pc.active .pc-radio::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--white); display: block; }
+  .pc-body { flex: 1; }
+  .pc-tier { font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+  .pc-price { font-weight: 600; font-size: .9rem; }
+  .pc-desc { font-size: .73rem; color: var(--muted); margin-top: .1rem; }
+  .pc-badge { background: var(--gold); color: var(--white); font-size: .6rem; font-weight: 600; padding: .18rem .55rem; border-radius: 100px; letter-spacing: .06em; text-transform: uppercase; flex-shrink: 0; }
+  .guarantee { margin-top: 1.8rem; background: var(--gold-lt); border: 1px solid rgba(201,147,58,.2); border-radius: 10px; padding: 1rem 1.2rem; }
+  .gt { font-size: .78rem; font-weight: 600; margin-bottom: .3rem; }
+  .gd { font-size: .76rem; color: var(--muted); line-height: 1.65; }
+  /* Form Panel */
+  .form-panel { background: var(--white); border-radius: 14px; border: 1px solid var(--line); padding: 2.4rem; box-shadow: var(--shadow); }
+  .plan-banner { background: var(--gold-lt); border: 1px solid rgba(201,147,58,.25); border-radius: var(--radius); padding: .8rem 1rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; }
+  .pb-label { font-size: .7rem; color: var(--muted); }
+  .pb-name { font-size: .9rem; font-weight: 600; }
+  .pb-price { font-size: .78rem; color: var(--gold); font-weight: 600; }
+  .fsec { font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-bottom: .5rem; border-bottom: 1px solid var(--line); margin-bottom: 1.2rem; margin-top: 2rem; }
+  .fsec:first-child { margin-top: 0; }
+  .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .span2 { grid-column: span 2; }
+  .cbrow { display: flex; gap: .6rem; align-items: flex-start; }
+  .cbrow input[type=checkbox] { width: 16px; height: 16px; margin-top: .15rem; flex-shrink: 0; accent-color: var(--gold); padding: 0; border: none; }
+  .cbrow label { font-size: .8rem; color: var(--muted); font-weight: 400; line-height: 1.55; cursor: pointer; }
+  .submit-btn {
+    width: 100%; padding: .95rem; background: var(--ink); color: var(--white);
+    border: none; border-radius: var(--radius); font-family: 'DM Sans', sans-serif;
+    font-size: .9rem; font-weight: 600; cursor: pointer; transition: background .2s;
+    margin-top: 1.5rem; letter-spacing: .01em;
+  }
+  .submit-btn:hover { background: var(--gold); }
+  .submit-btn:disabled { background: var(--muted); cursor: not-allowed; }
+  .form-note { font-size: .74rem; color: var(--muted); text-align: center; margin-top: .8rem; line-height: 1.6; }
+  /* Success */
+  .success { display: none; text-align: center; padding: 2.5rem 1rem; }
+  .success-icon { width: 58px; height: 58px; background: rgba(22,163,74,.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; }
+  .success-icon svg { width: 26px; height: 26px; stroke: var(--success); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .success h2 { font-size: 1.5rem; margin-bottom: .6rem; }
+  .success p { font-size: .88rem; color: var(--muted); line-height: 1.75; max-width: 340px; margin: 0 auto 1.5rem; }
+  .ref-box { background: var(--paper); border-radius: var(--radius); padding: .65rem 1.2rem; display: inline-block; font-size: .8rem; font-weight: 600; }
+  .ref-box span { color: var(--gold); }
+  @media(max-width: 768px) {
+    .page { grid-template-columns: 1fr; gap: 2rem; }
+    .fgrid { grid-template-columns: 1fr; }
+    .span2 { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="/#builds">What I Build</a></li>
+    <li><a href="/#plans">Plans</a></li>
+    <li><a href="/#about">About</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/" class="btn btn-ghost btn-sm">← Back to Home</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- LEFT -->
+  <div>
+    <div class="eyebrow">Institution Registration</div>
+    <h1 class="lp-title">Tell us about your <em>school.</em></h1>
+    <p class="lp-desc">Fill in your institution's details and select a plan. We'll contact you within 2 hours to schedule a free demo — no payment required at this stage.</p>
+
+    <div class="plan-cards">
+      <div class="pc" id="pc-silver" onclick="selectPlan('silver')">
+        <div class="pc-radio"></div>
+        <div class="pc-body">
+          <div class="pc-tier">Silver Plan</div>
+          <div class="pc-price">PKR 50,000</div>
+          <div class="pc-desc">Website + basic admin, parent and teacher portals</div>
+        </div>
+      </div>
+      <div class="pc" id="pc-gold" onclick="selectPlan('gold')">
+        <div class="pc-radio"></div>
+        <div class="pc-body">
+          <div class="pc-tier">Gold Plan</div>
+          <div class="pc-price">PKR 100,000</div>
+          <div class="pc-desc">Complete ERP — attendance, fees, results, timetable, leaves</div>
+        </div>
+        <div class="pc-badge">Popular</div>
+      </div>
+      <div class="pc" id="pc-diamond" onclick="selectPlan('diamond')">
+        <div class="pc-radio"></div>
+        <div class="pc-body">
+          <div class="pc-tier">Diamond Plan</div>
+          <div class="pc-price">PKR 150,000</div>
+          <div class="pc-desc">Full ERP + HR, transport, LMS, AI analytics, 3 custom features</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guarantee">
+      <div class="gt">Free Demo — No Commitment</div>
+      <div class="gd">You will see a live working demo with your institution's name before paying a single rupee. We start building only after you are satisfied.</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="form-panel" id="form-panel">
+    <div class="plan-banner" id="plan-banner" style="display:none">
+      <div>
+        <div class="pb-label">Selected Plan</div>
+        <div class="pb-name" id="banner-name">—</div>
+      </div>
+      <div class="pb-price" id="banner-price"></div>
+    </div>
+
+    <form id="reg-form" novalidate>
+      <input type="hidden" id="f-plan" name="plan" value="">
+
+      <div class="fsec">Institution Details</div>
+      <div class="fgrid">
+        <div class="form-group span2">
+          <label>Institution Name <span class="req">*</span></label>
+          <input class="field-input" type="text" id="f-name" placeholder="e.g. Al-Farooq Public School & College">
+          <div class="field-error" id="e-name"></div>
+        </div>
+        <div class="form-group">
+          <label>Institution Type <span class="req">*</span></label>
+          <select class="field-input" id="f-type">
+            <option value="">Select type...</option>
+            <option>Primary School</option>
+            <option>High School</option>
+            <option>Higher Secondary (College)</option>
+            <option>School & College (Combined)</option>
+            <option>Madrasa</option>
+            <option>Academy / Coaching Centre</option>
+            <option>University</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error" id="e-type"></div>
+        </div>
+        <div class="form-group">
+          <label>Affiliation / Board</label>
+          <select class="field-input" id="f-board">
+            <option value="">Select board...</option>
+            <option>BISE D.I. Khan</option>
+            <option>BISE Peshawar</option>
+            <option>BISE Lahore</option>
+            <option>BISE Rawalpindi</option>
+            <option>Federal Board (FBISE)</option>
+            <option>Cambridge (O/A Level)</option>
+            <option>No affiliation</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Approximate Students <span class="req">*</span></label>
+          <select class="field-input" id="f-students">
+            <option value="">Select range...</option>
+            <option>Under 100</option>
+            <option>100 – 300</option>
+            <option>300 – 500</option>
+            <option>500 – 1,000</option>
+            <option>1,000 – 2,000</option>
+            <option>Over 2,000</option>
+          </select>
+          <div class="field-error" id="e-students"></div>
+        </div>
+        <div class="form-group">
+          <label>Teachers / Staff</label>
+          <select class="field-input" id="f-staff">
+            <option value="">Select range...</option>
+            <option>Under 10</option>
+            <option>10 – 30</option>
+            <option>30 – 60</option>
+            <option>60 – 100</option>
+            <option>Over 100</option>
+          </select>
+        </div>
+        <div class="form-group span2">
+          <label>Address <span class="req">*</span></label>
+          <input class="field-input" type="text" id="f-address" placeholder="Street, area, city, district">
+          <div class="field-error" id="e-address"></div>
+        </div>
+        <div class="form-group">
+          <label>City / District <span class="req">*</span></label>
+          <input class="field-input" type="text" id="f-city" placeholder="e.g. D.I. Khan">
+          <div class="field-error" id="e-city"></div>
+        </div>
+        <div class="form-group">
+          <label>Province</label>
+          <select class="field-input" id="f-province">
+            <option value="">Select...</option>
+            <option>KPK</option><option>Punjab</option><option>Sindh</option>
+            <option>Balochistan</option><option>AJK</option><option>Gilgit-Baltistan</option>
+            <option>ICT (Islamabad)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fsec">Contact Person</div>
+      <div class="fgrid">
+        <div class="form-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input class="field-input" type="text" id="f-cname" placeholder="Principal / Admin / Owner">
+          <div class="field-error" id="e-cname"></div>
+        </div>
+        <div class="form-group">
+          <label>Designation <span class="req">*</span></label>
+          <select class="field-input" id="f-crole">
+            <option value="">Select...</option>
+            <option>Principal</option>
+            <option>Director / Owner</option>
+            <option>Administrator</option>
+            <option>IT In-charge</option>
+            <option>Vice Principal</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error" id="e-crole"></div>
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number <span class="req">*</span></label>
+          <input class="field-input" type="tel" id="f-phone" placeholder="03XX-XXXXXXX">
+          <div class="field-error" id="e-phone"></div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input class="field-input" type="email" id="f-email" placeholder="school@example.com">
+        </div>
+      </div>
+
+      <div class="fsec">Plan & Preferences</div>
+      <div class="fgrid">
+        <div class="form-group">
+          <label>Plan <span class="req">*</span></label>
+          <select class="field-input" id="f-plan-sel" onchange="selectPlan(this.value)">
+            <option value="">Select a plan...</option>
+            <option value="silver">Silver — PKR 50,000</option>
+            <option value="gold">Gold — PKR 100,000</option>
+            <option value="diamond">Diamond — PKR 150,000</option>
+          </select>
+          <div class="field-error" id="e-plan"></div>
+        </div>
+        <div class="form-group">
+          <label>Preferred Start</label>
+          <select class="field-input" id="f-start">
+            <option value="">Flexible</option>
+            <option>Immediately</option>
+            <option>Within 1 month</option>
+            <option>1–3 months</option>
+            <option>Next academic year</option>
+            <option>Just exploring for now</option>
+          </select>
+        </div>
+        <div class="form-group span2">
+          <label>Specific Requirements or Questions</label>
+          <textarea class="field-input" id="f-req" placeholder="Language preference, custom features needed, current systems being replaced, or any questions..."></textarea>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:.7rem;margin-top:1.2rem">
+        <div class="cbrow">
+          <input type="checkbox" id="f-consent">
+          <label for="f-consent">I agree to be contacted by Nextgen Sys. via WhatsApp and phone regarding my registration. <span class="req">*</span></label>
+        </div>
+        <div class="field-error" id="e-consent"></div>
+        <div class="cbrow">
+          <input type="checkbox" id="f-demo">
+          <label for="f-demo">I understand this is a request for a <strong>free demo</strong> — no payment is required at this stage.</label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Submit Registration</button>
+      <p class="form-note">We respond within 2 hours · Mon–Sat 9AM–6PM PKT</p>
+    </form>
+
+    <div class="success" id="success">
+      <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+      <h2>Registration Received</h2>
+      <p>Thank you. We will contact you on your WhatsApp number within 2 hours to schedule your free demo.</p>
+      <div class="ref-box">Reference: <span id="ref-no"></span></div>
+      <br><br>
+      <a href="/" class="btn btn-ghost btn-sm">← Back to Home</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PLANS = {
+  silver:  { label:'Silver Plan',  price:'PKR 50,000' },
+  gold:    { label:'Gold Plan',    price:'PKR 100,000' },
+  diamond: { label:'Diamond Plan', price:'PKR 150,000' },
+};
+
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+// Auto-select from URL
+const urlPlan = new URLSearchParams(location.search).get('plan');
+if(urlPlan && PLANS[urlPlan]) selectPlan(urlPlan);
+
+function selectPlan(plan) {
+  document.querySelectorAll('.pc').forEach(el => el.classList.remove('active'));
+  const card = document.getElementById('pc-' + plan);
+  if(card) card.classList.add('active');
+  document.getElementById('f-plan').value = plan;
+  document.getElementById('f-plan-sel').value = plan;
+  const banner = document.getElementById('plan-banner');
+  if(PLANS[plan]) {
+    banner.style.display = 'flex';
+    document.getElementById('banner-name').textContent = PLANS[plan].label;
+    document.getElementById('banner-price').textContent = PLANS[plan].price;
+  } else { banner.style.display = 'none'; }
+  document.getElementById('e-plan').textContent = '';
+  document.getElementById('f-plan-sel').classList.remove('err');
+}
+
+function validate(id, errId, msg) {
+  const el = document.getElementById(id);
+  if (!el.value.trim()) { el.classList.add('err'); document.getElementById(errId).textContent = msg; return false; }
+  el.classList.remove('err'); document.getElementById(errId).textContent = ''; return true;
+}
+
+function validatePhone() {
+  const el = document.getElementById('f-phone');
+  const val = el.value.replace(/[\s-]/g,'');
+  if(!val) { el.classList.add('err'); document.getElementById('e-phone').textContent = 'WhatsApp number is required.'; return false; }
+  if(!/^(\+92|0)3[0-9]{9}$/.test(val)) { el.classList.add('err'); document.getElementById('e-phone').textContent = 'Enter a valid Pakistani number (03XX-XXXXXXX).'; return false; }
+  el.classList.remove('err'); document.getElementById('e-phone').textContent = ''; return true;
+}
+
+// Clear error on input
+document.querySelectorAll('.field-input').forEach(el => {
+  el.addEventListener('input', () => { el.classList.remove('err'); });
+});
+
+document.getElementById('reg-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  let ok = true;
+  if(!validate('f-name','e-name','Institution name is required.')) ok=false;
+  if(!validate('f-type','e-type','Please select institution type.')) ok=false;
+  if(!validate('f-students','e-students','Please select student count.')) ok=false;
+  if(!validate('f-address','e-address','Address is required.')) ok=false;
+  if(!validate('f-city','e-city','City is required.')) ok=false;
+  if(!validate('f-cname','e-cname','Contact name is required.')) ok=false;
+  if(!validate('f-crole','e-crole','Please select your designation.')) ok=false;
+  if(!validatePhone()) ok=false;
+  if(!document.getElementById('f-plan').value) {
+    document.getElementById('f-plan-sel').classList.add('err');
+    document.getElementById('e-plan').textContent = 'Please select a plan.'; ok=false;
+  }
+  if(!document.getElementById('f-consent').checked) {
+    document.getElementById('e-consent').textContent = 'You must agree to be contacted.'; ok=false;
+  }
+  if(!ok) { document.querySelector('.err, .field-error:not(:empty)')?.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: document.getElementById('f-plan').value,
+        institutionName: document.getElementById('f-name').value,
+        institutionType: document.getElementById('f-type').value,
+        board: document.getElementById('f-board').value,
+        studentCount: document.getElementById('f-students').value,
+        staffCount: document.getElementById('f-staff').value,
+        address: document.getElementById('f-address').value,
+        city: document.getElementById('f-city').value,
+        province: document.getElementById('f-province').value,
+        contactName: document.getElementById('f-cname').value,
+        contactRole: document.getElementById('f-crole').value,
+        phone: document.getElementById('f-phone').value,
+        email: document.getElementById('f-email').value,
+        startPreference: document.getElementById('f-start').value,
+        requirements: document.getElementById('f-req').value,
+      })
+    });
+    const d = await res.json();
+    if(d.success) {
+      document.getElementById('ref-no').textContent = d.ref;
+      document.getElementById('reg-form').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      document.getElementById('plan-banner').style.display = 'none';
+    } else {
+      showToast(d.message || 'Submission failed. Please try again.', 'err');
+      btn.textContent = 'Submit Registration'; btn.disabled = false;
+    }
+  } catch(err) {
+    showToast('Connection error. Please try again.', 'err');
+    btn.textContent = 'Submit Registration'; btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

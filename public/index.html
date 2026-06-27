@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hassan Mainkhel — Nextgen Sys</title>
+<meta name="description" content="Custom school management software for Pakistani educational institutions. One-time payment, no monthly fees. Built from scratch by Hassan Mainkhel, D.I. Khan.">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh; padding-top: 64px;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: 4rem; align-items: center;
+    max-width: 1160px; margin: 0 auto; padding-left: 5vw; padding-right: 5vw;
+  }
+  .hero h1 { font-size: clamp(2.6rem, 5vw, 4.2rem); margin-bottom: 1.4rem; }
+  .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 440px; margin-bottom: 2.4rem; }
+  .hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+  .hero-card {
+    background: var(--white); border-radius: 14px; padding: 1.8rem;
+    border: 1px solid var(--line); box-shadow: var(--shadow-lg);
+  }
+  .hc-label { font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+  .hc-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: 1.4rem; }
+  .hc-stat { background: var(--paper); border-radius: var(--radius); padding: .9rem; }
+  .hc-num { font-size: 1.7rem; font-family: 'DM Serif Display', serif; font-weight: 400; line-height: 1; }
+  .hc-num sub { font-family: 'DM Sans', sans-serif; font-size: .8rem; color: var(--gold); }
+  .hc-lbl { font-size: .7rem; color: var(--muted); margin-top: .25rem; }
+  .hc-tech-lbl { font-size: .68rem; color: var(--muted); margin-bottom: .5rem; }
+  .pills { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .pill { background: var(--paper); border: 1px solid var(--line); border-radius: 100px; padding: .2rem .65rem; font-size: .68rem; font-weight: 500; }
+  /* ── BUILDS ── */
+  .builds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+  .build-card { background: var(--white); border-radius: 12px; padding: 1.6rem; border: 1px solid var(--line); transition: box-shadow .25s, transform .2s; }
+  .build-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .bc-abbr { width: 34px; height: 34px; background: var(--paper); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 700; color: var(--gold); letter-spacing: .04em; margin-bottom: .9rem; border: 1px solid var(--line); }
+  .bc-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .92rem; margin-bottom: .4rem; }
+  .bc-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+  /* ── PLANS ── */
+  .plans-bg { background: var(--ink); }
+  .plans-bg .eyebrow { color: var(--gold); }
+  .plans-bg .eyebrow::before { background: var(--gold); }
+  .plans-bg .section-title { color: var(--white); }
+  .plans-bg .section-sub { color: rgba(255,255,255,.5); }
+  .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  .plan-card { border-radius: 12px; padding: 2rem; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); display: flex; flex-direction: column; position: relative; transition: background .2s; }
+  .plan-card:hover { background: rgba(255,255,255,.07); }
+  .plan-card.featured { border-color: var(--gold); background: rgba(201,147,58,.06); }
+  .plan-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--white); padding: .2rem .75rem; border-radius: 100px; font-size: .62rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; white-space: nowrap; }
+  .plan-tier { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
+  .plan-price { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--white); margin-bottom: .2rem; }
+  .plan-note { font-size: .7rem; color: rgba(255,255,255,.3); margin-bottom: 1.2rem; }
+  .plan-desc { font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.65; margin-bottom: 1.2rem; }
+  .plan-feats { list-style: none; flex: 1; }
+  .plan-feats li { font-size: .8rem; color: rgba(255,255,255,.7); padding: .32rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .5rem; }
+  .plan-feats li:last-child { border-bottom: none; }
+  .plan-feats li::before { content: '–'; color: var(--gold); flex-shrink: 0; }
+  .plan-btn { margin-top: 1.5rem; display: block; text-align: center; text-decoration: none; background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius); padding: .65rem; font-size: .82rem; font-weight: 500; transition: all .2s; }
+  .plan-btn:hover, .plan-card.featured .plan-btn { background: var(--gold); border-color: var(--gold); }
+  /* ── PROJECT ── */
+  .proj-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; background: var(--white); border-radius: 14px; padding: 3rem; border: 1px solid var(--line); }
+  .proj-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .tag { background: var(--paper); border-radius: 4px; padding: .18rem .6rem; font-size: .68rem; font-weight: 500; color: var(--muted); }
+  .proj-title { font-size: 1.7rem; margin-bottom: .9rem; }
+  .proj-desc { color: var(--muted); font-size: .88rem; line-height: 1.75; margin-bottom: 1.4rem; }
+  .proj-list { list-style: none; }
+  .proj-list li { font-size: .8rem; padding: .32rem 0; border-bottom: 1px solid var(--line); display: flex; gap: .5rem; }
+  .proj-list li:last-child { border-bottom: none; }
+  .proj-list li::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+  .mock { background: var(--ink); border-radius: 10px; padding: 1.6rem; font-size: .76rem; font-family: 'DM Sans', monospace; line-height: 2; }
+  .mock-dots { display: flex; gap: .35rem; margin-bottom: .9rem; }
+  .mock-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.15); }
+  .mock-dot.r{background:#ff5f57}.mock-dot.y{background:#febc2e}.mock-dot.g{background:#28c840}
+  .mock-url { font-size: .68rem; background: rgba(255,255,255,.06); border-radius: 4px; padding: .3rem .8rem; margin-bottom: .9rem; color: rgba(255,255,255,.3); }
+  .mock-sec { font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.25); margin: .6rem 0 .2rem; }
+  .mock-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.05); padding: .2rem 0; color: rgba(255,255,255,.6); }
+  .mock-row:last-child { border-bottom: none; }
+  .mv { color: var(--gold); font-weight: 600; }
+  .mv.g{color:#28c840}.mv.r{color:#ff5f57}.mv.y{color:#febc2e}
+  /* ── STACK ── */
+  .stack-row { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.5rem; }
+  .stack-item { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: .65rem 1.1rem; font-size: .8rem; font-weight: 500; transition: border-color .2s; }
+  .stack-item:hover { border-color: var(--gold); }
+  /* ── PROCESS ── */
+  .process-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; counter-reset: step; }
+  .p-step { counter-increment: step; border-left: 2px solid var(--line); padding-left: 1rem; }
+  .p-step::before { content: '0' counter(step); display: block; font-size: .62rem; font-weight: 600; letter-spacing: .1em; color: var(--gold); margin-bottom: .6rem; }
+  .p-title { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: .88rem; margin-bottom: .35rem; }
+  .p-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 280px 1fr; gap: 4rem; }
+  .about-name { font-size: 2rem; margin-bottom: .4rem; }
+  .about-role { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .about-loc { font-size: .84rem; color: var(--muted); margin-bottom: 1.4rem; }
+  .clist { list-style: none; }
+  .clist li { font-size: .82rem; padding: .4rem 0; border-bottom: 1px solid var(--line); }
+  .clist li:last-child { border-bottom: none; }
+  .clist strong { color: var(--gold); }
+  .about-body p { color: var(--muted); font-size: .93rem; line-height: 1.8; margin-bottom: 1rem; }
+  /* ── COUNTER ── */
+  #reg-count { display: inline-block; }
+  footer { background: var(--ink); color: rgba(255,255,255,.4); text-align: center; padding: 2.5rem 5vw; font-size: .78rem; }
+  footer strong { color: var(--white); }
+  footer a { color: var(--gold); text-decoration: none; }
+  @media(max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 96px; gap: 2rem; }
+    .hero-visual { display: none; }
+    .plans-grid { grid-template-columns: 1fr; }
+    .proj-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .process-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="#builds">What I Build</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#project">Work</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/register" class="btn btn-primary btn-sm">Register Your School</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="reveal">
+    <div class="eyebrow">Full-Stack Developer · D.I. Khan, KPK</div>
+    <h1>School systems that replace every <em>paper register.</em></h1>
+    <p class="hero-sub">Hassan Mainkhel — founder of Nextgen Sys. Custom school management software for Pakistani educational institutions. One-time payment, no monthly fees, built from scratch for you.</p>
+    <div class="hero-actions">
+      <a href="/register" class="btn btn-primary">Register Your School</a>
+      <a href="#plans" class="btn btn-ghost">View Plans</a>
+    </div>
+  </div>
+  <div class="hero-visual reveal">
+    <div class="hero-card">
+      <div class="hc-label">Nextgen Sys — At a glance</div>
+      <div class="hc-stats">
+        <div class="hc-stat"><div class="hc-num"><span id="reg-count">—</span><sub>+</sub></div><div class="hc-lbl">Schools registered</div></div>
+        <div class="hc-stat"><div class="hc-num">0<sub>₨</sub></div><div class="hc-lbl">Monthly fee, ever</div></div>
+        <div class="hc-stat"><div class="hc-num">50<sub>k</sub></div><div class="hc-lbl">Starting price (PKR)</div></div>
+        <div class="hc-stat"><div class="hc-num">4<sub>wk</sub></div><div class="hc-lbl">Average delivery</div></div>
+      </div>
+      <div class="hc-tech-lbl" style="font-size:.68rem;color:var(--muted);margin-bottom:.5rem">Built with</div>
+      <div class="pills">
+        <span class="pill">Node.js</span><span class="pill">Express</span><span class="pill">SQLite</span>
+        <span class="pill">Next.js</span><span class="pill">PostgreSQL</span><span class="pill">Railway</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- WHAT I BUILD -->
+<section class="section" id="builds">
+  <div class="section-hdr reveal">
+    <div class="eyebrow">What I Build</div>
+    <h2 class="section-title">Every paper register, <em>eliminated.</em></h2>
+    <p class="section-sub">Not a template, not a resold product. Every system is built fresh for your institution.</p>
+  </div>
+  <div class="builds-grid">
+    <div class="build-card reveal"><div class="bc-abbr">STD</div><div class="bc-title">Student Management</div><div class="bc-desc">Full profiles, roll numbers, class and section assignment, bulk CSV import, and searchable records across thousands of students.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">ATT</div><div class="bc-title">Attendance System</div><div class="bc-desc">Daily attendance in under 2 minutes per class. Auto-WhatsApp to parents when a student is absent. Monthly reports auto-calculated.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">FEE</div><div class="bc-title">Fee Management</div><div class="bc-desc">Digital fee ledger, auto-receipts, defaulter lists with reminders. Online payment via EasyPaisa, JazzCash and bank transfer.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">RES</div><div class="bc-title">Results & Report Cards</div><div class="bc-desc">Teachers enter marks, system calculates percentage, grade and position. Auto-generates branded PDF report cards parents download directly.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">SCH</div><div class="bc-title">Timetable & Exam Schedule</div><div class="bc-desc">Digital class timetables per section, exam schedules with date and venue. One-click WhatsApp blast notifies all parents instantly.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">WEB</div><div class="bc-title">Public School Website</div><div class="bc-desc">Branded multi-page site with admissions, news, gallery, faculty and alumni. Replaces printed prospectus and notice boards permanently.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">PAR</div><div class="bc-title">Parent Portal</div><div class="bc-desc">Parents check fees, attendance and results anytime. Submit leave requests. Pay fees from phone. Download receipts — no school visit needed.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">TCH</div><div class="bc-title">Teacher Portal</div><div class="bc-desc">Teachers mark attendance, post homework, upload bulk results and view their class students from a dedicated panel with their own login.</div></div>
+    <div class="build-card reveal"><div class="bc-abbr">PRO</div><div class="bc-title">Year-End Promotion</div><div class="bc-desc">One click promotes entire classes. Class 12 students auto-pass out and are added to alumni. Full preview before confirming.</div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PLANS -->
+<div class="plans-bg" id="plans">
+  <section class="section">
+    <div class="section-hdr reveal">
+      <div class="eyebrow">Service Plans 2026</div>
+      <h2 class="section-title">One-time payment. No monthly bills.</h2>
+      <p class="section-sub">Every plan built from scratch for your institution. Hosting included for 1 year. Free demo before you commit.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card reveal">
+        <div class="plan-tier">Silver</div>
+        <div class="plan-price">PKR 50,000</div>
+        <div class="plan-note">One-time · 1 year hosting included</div>
+        <div class="plan-desc">Website and basic portals for schools starting their digital journey.</div>
+        <ul class="plan-feats">
+          <li>Multi-page branded school website</li>
+          <li>Online admission enquiry form</li>
+          <li>News, events and gallery</li>
+          <li>Faculty and alumni pages</li>
+          <li>Admin, teacher, student and parent portals</li>
+          <li>Notice board across all portals</li>
+          <li>1 month free support</li>
+        </ul>
+        <a href="/register?plan=silver" class="plan-btn">Select Silver</a>
+      </div>
+      <div class="plan-card featured reveal">
+        <div class="plan-badge">Most Popular</div>
+        <div class="plan-tier">Gold</div>
+        <div class="plan-price">PKR 100,000</div>
+        <div class="plan-note">One-time · 1 year hosting included</div>
+        <div class="plan-desc">Complete school ERP — eliminates every paper register your school runs on today.</div>
+        <ul class="plan-feats">
+          <li>Everything in Silver</li>
+          <li>Digital attendance with parent WhatsApp alerts</li>
+          <li>Full fee management and digital receipts</li>
+          <li>Online fee payment (EasyPaisa, JazzCash)</li>
+          <li>Exam and result management</li>
+          <li>Auto PDF report cards</li>
+          <li>Timetable and exam schedule</li>
+          <li>Leave request system</li>
+          <li>3 months free support</li>
+        </ul>
+        <a href="/register?plan=gold" class="plan-btn">Select Gold</a>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-tier">Diamond</div>
+        <div class="plan-price">PKR 150,000</div>
+        <div class="plan-note">One-time · 1 year hosting included</div>
+        <div class="plan-desc">Full institution ERP with HR, LMS, AI analytics and 3 custom features.</div>
+        <ul class="plan-feats">
+          <li>Everything in Gold</li>
+          <li>HR and staff management with salary slips</li>
+          <li>Transport and route management</li>
+          <li>AI analytics dashboard</li>
+          <li>Question bank and online assessments</li>
+          <li>LMS — notes, assignments, submissions</li>
+          <li>Multi-campus support</li>
+          <li>Up to 3 custom-built features</li>
+          <li>6 months free support · dedicated WhatsApp</li>
+        </ul>
+        <a href="/register?plan=diamond" class="plan-btn">Select Diamond</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PROJECT -->
+<section class="section" id="project">
+  <div class="section-hdr reveal">
+    <div class="eyebrow">Featured Project</div>
+    <h2 class="section-title">St. Helen's High School <em>&</em> College</h2>
+    <p class="section-sub">A complete Gold-plan school management system — live in production, handling real students and real fees.</p>
+  </div>
+  <div class="proj-wrap reveal">
+    <div>
+      <div class="proj-tags"><span class="tag">Node.js</span><span class="tag">SQLite</span><span class="tag">Railway</span><span class="tag">Live</span></div>
+      <h3 class="proj-title">Full school ERP, built <em>from scratch.</em></h3>
+      <p class="proj-desc">Complete multi-module system — admin panel, teacher portal, parent portal and public website — replacing all paper registers. SQLite with indexed attendance table handles millions of records.</p>
+      <ul class="proj-list">
+        <li>Student management with bulk CSV import</li>
+        <li>Digital attendance with parent WhatsApp alerts</li>
+        <li>Fee management with EasyPaisa and JazzCash</li>
+        <li>Auto-generated PDF report cards</li>
+        <li>Timetable and exam schedule with parent notification</li>
+        <li>Leave requests with admin approval and WA reply</li>
+        <li>Year-end class promotion module</li>
+        <li>Weekly auto-backup with one-click restore</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-dots"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div></div>
+      <div class="mock-url">sthelens.railway.app / admin panel</div>
+      <div class="mock-sec">Dashboard</div>
+      <div class="mock-row"><span>Total Students</span><span class="mv">847</span></div>
+      <div class="mock-row"><span>Present Today</span><span class="mv g">812</span></div>
+      <div class="mock-row"><span>Fee Collected</span><span class="mv">PKR 2.4M</span></div>
+      <div class="mock-row"><span>Pending Verification</span><span class="mv y">3</span></div>
+      <div class="mock-sec">Attendance — Class 10A</div>
+      <div class="mock-row"><span>Ahmed Raza Khan</span><span class="mv g">Present</span></div>
+      <div class="mock-row"><span>Sara Bibi</span><span class="mv r">Absent</span></div>
+      <div class="mock-row"><span>Usman Tariq</span><span class="mv y">Late</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- STACK -->
+<section class="section">
+  <div class="section-hdr reveal">
+    <div class="eyebrow">Technology</div>
+    <h2 class="section-title">Modern stack, proven in production.</h2>
+  </div>
+  <div class="stack-row">
+    <div class="stack-item reveal">Node.js + Express</div>
+    <div class="stack-item reveal">SQLite / better-sqlite3</div>
+    <div class="stack-item reveal">PostgreSQL + Redis</div>
+    <div class="stack-item reveal">Next.js 14</div>
+    <div class="stack-item reveal">NestJS + TypeScript</div>
+    <div class="stack-item reveal">Railway</div>
+    <div class="stack-item reveal">JWT + bcrypt</div>
+    <div class="stack-item reveal">WhatsApp Cloud API</div>
+    <div class="stack-item reveal">JazzCash / EasyPaisa</div>
+    <div class="stack-item reveal">GitHub</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="section-hdr reveal">
+    <div class="eyebrow">How It Works</div>
+    <h2 class="section-title">Live demo before you pay a single rupee.</h2>
+  </div>
+  <div class="process-row">
+    <div class="p-step reveal"><div class="p-title">Free Consultation</div><div class="p-desc">Tell me about your school. I'll suggest the right plan with no pressure.</div></div>
+    <div class="p-step reveal"><div class="p-title">Live Demo</div><div class="p-desc">Working demo with your school's name on it. Test every module before any payment.</div></div>
+    <div class="p-step reveal"><div class="p-title">50% to Start</div><div class="p-desc">Simple scope document. 50% advance to begin. I share progress regularly.</div></div>
+    <div class="p-step reveal"><div class="p-title">Build & Train</div><div class="p-desc">I build, customize to your branding, then train your admin and teachers.</div></div>
+    <div class="p-step reveal"><div class="p-title">Go Live</div><div class="p-desc">Pay remaining 50% on delivery. System goes live. Support period begins.</div></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <h2 class="about-name">Hassan Mainkhel</h2>
+      <div class="about-role">Founder, Nextgen Sys.</div>
+      <div class="about-loc">D.I. Khan, KPK, Pakistan</div>
+      <ul class="clist">
+        <li><strong>Email</strong> info@nextgensys.pk</li>
+        <li><strong>WhatsApp</strong> +92-XXX-XXXXXXX</li>
+        <li><strong>Website</strong> www.nextgensys.pk</li>
+        <li><strong>Hours</strong> Mon–Sat, 9AM–6PM PKT</li>
+      </ul>
+    </div>
+    <div class="about-body reveal">
+      <p>I'm a full-stack developer from D.I. Khan building software that fixes real operational problems for Pakistani educational institutions. Nextgen Sys. started after seeing how much time schools waste on paper registers, handwritten receipts and printed notice slips.</p>
+      <p>Every system is custom. Your institution's name, logo, colors and workflow are built in from day one. I use a Node.js and SQLite stack fast enough to handle millions of records while cheap enough to run on a single Railway server with no ongoing infrastructure cost for you.</p>
+      <p>I understand the Pakistani education market — KPK Board grading, local payment methods (JazzCash, EasyPaisa), and the budget realities of schools outside major cities. I'm not selling you enterprise software priced for Lahore Grammar School.</p>
+      <a href="/register" class="btn btn-primary" style="margin-top:1.2rem">Register Your School</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Nextgen Sys.</strong> — Web & School Management Solutions<br>
+  © 2026 Hassan Mainkhel · D.I. Khan, Pakistan · <a href="mailto:info@nextgensys.pk">info@nextgensys.pk</a>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach((el,i) => {
+    io.observe(el);
+    const parent = el.closest('.builds-grid,.plans-grid,.stack-row,.process-row,.hc-stats');
+    if(parent) el.style.transitionDelay = (Array.from(parent.querySelectorAll('.reveal')).indexOf(el) * 65) + 'ms';
+  });
+
+  // Live registration count
+  async function loadStats() {
+    try {
+      const res = await fetch('/api/stats');
+      const d = await res.json();
+      if(d.total !== undefined) document.getElementById('reg-count').textContent = d.total;
+    } catch(e) {}
+  }
+  loadStats();
+</script>
+</body>
+</html>
