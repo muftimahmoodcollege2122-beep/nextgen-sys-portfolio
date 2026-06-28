@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Demo — Nextgen Sys School Management</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #0d1117; --paper: #f9f7f4; --white: #fff;
+  --gold: #c9933a; --muted: #6b7280; --line: rgba(13,17,23,.1);
+  --green: #16a34a; --red: #dc2626; --blue: #1d4ed8;
+  --screen-bg: #1a1f2e;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+/* ── NAV ── */
+nav { display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; height: 60px; border-bottom: 1px solid rgba(255,255,255,.07); position: sticky; top: 0; z-index: 100; background: rgba(13,17,23,.95); backdrop-filter: blur(16px); }
+.nav-logo { font-weight: 700; font-size: .9rem; color: var(--white); text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a { font-size: .8rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta { background: var(--gold); color: var(--white); padding: .5rem 1.2rem; border-radius: 6px; font-size: .8rem; font-weight: 600; text-decoration: none; transition: background .2s; }
+.nav-cta:hover { background: #b07e2a; }
+
+/* ── HERO ── */
+.demo-hero { text-align: center; padding: 5rem 5vw 3rem; max-width: 720px; margin: 0 auto; }
+.demo-eyebrow { font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; justify-content: center; gap: .5rem; margin-bottom: 1.2rem; }
+.demo-eyebrow::before, .demo-eyebrow::after { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+.demo-hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; margin-bottom: 1rem; }
+.demo-hero h1 em { font-style: italic; color: var(--gold); }
+.demo-hero p { font-size: .95rem; color: rgba(255,255,255,.5); line-height: 1.75; margin-bottom: 2rem; }
+
+/* ── MODULE TABS ── */
+.module-tabs { display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap; padding: 0 5vw; margin-bottom: 3rem; }
+.tab-btn { padding: .5rem 1.1rem; border-radius: 100px; font-size: .78rem; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,.12); background: transparent; color: rgba(255,255,255,.5); font-family: 'DM Sans', sans-serif; transition: all .2s; }
+.tab-btn:hover { border-color: rgba(255,255,255,.3); color: var(--white); }
+.tab-btn.active { background: var(--gold); border-color: var(--gold); color: var(--white); }
+
+/* ── DEMO SCREEN ── */
+.demo-stage { max-width: 960px; margin: 0 auto; padding: 0 4vw 5rem; }
+.screen-wrap { background: var(--screen-bg); border-radius: 14px; border: 1px solid rgba(255,255,255,.08); overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,.5); }
+.screen-topbar { background: rgba(255,255,255,.04); padding: .7rem 1rem; display: flex; align-items: center; gap: .8rem; border-bottom: 1px solid rgba(255,255,255,.06); }
+.topbar-dots { display: flex; gap: .35rem; }
+.topbar-dot { width: 10px; height: 10px; border-radius: 50%; }
+.topbar-dot.r{background:#ff5f57}.topbar-dot.y{background:#febc2e}.topbar-dot.g{background:#28c840}
+.topbar-url { flex: 1; background: rgba(255,255,255,.06); border-radius: 5px; padding: .3rem .8rem; font-size: .7rem; color: rgba(255,255,255,.3); text-align: center; }
+.screen-body { display: flex; min-height: 520px; }
+
+/* ── SIDEBAR ── */
+.demo-sidebar { width: 200px; flex-shrink: 0; background: rgba(0,0,0,.25); border-right: 1px solid rgba(255,255,255,.05); padding: 1rem 0; }
+.sb-logo { padding: .6rem 1.2rem 1rem; font-weight: 700; font-size: .82rem; color: var(--white); border-bottom: 1px solid rgba(255,255,255,.05); margin-bottom: .5rem; }
+.sb-logo span { color: var(--gold); }
+.sb-item { display: flex; align-items: center; gap: .6rem; padding: .55rem 1.2rem; font-size: .76rem; color: rgba(255,255,255,.4); cursor: pointer; transition: all .15s; border-left: 2px solid transparent; }
+.sb-item:hover { color: rgba(255,255,255,.7); background: rgba(255,255,255,.04); }
+.sb-item.active { color: var(--white); background: rgba(201,147,58,.1); border-left-color: var(--gold); }
+.sb-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .5; flex-shrink: 0; }
+.sb-item.active .sb-dot { background: var(--gold); opacity: 1; }
+
+/* ── MAIN CONTENT AREA ── */
+.demo-content { flex: 1; padding: 1.5rem; overflow: hidden; }
+.module-screen { display: none; animation: fadeSlide .35s ease; }
+.module-screen.active { display: block; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.content-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+.content-title { font-size: .95rem; font-weight: 600; color: var(--white); }
+.content-sub { font-size: .72rem; color: rgba(255,255,255,.35); margin-top: .15rem; }
+.btn-demo { padding: .4rem .9rem; border-radius: 5px; font-size: .72rem; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.btn-green { background: rgba(22,163,74,.9); color: var(--white); }
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-outline-w { background: transparent; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.7); padding: .4rem .9rem; border-radius: 5px; font-size: .72rem; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+
+/* ── STAT CARDS ── */
+.stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: .7rem; margin-bottom: 1.2rem; }
+.stat-c { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07); border-radius: 8px; padding: .9rem; }
+.stat-n { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--white); line-height: 1; }
+.stat-n.gold{color:var(--gold)}.stat-n.green{color:#4ade80}.stat-n.red{color:#f87171}
+.stat-l { font-size: .65rem; color: rgba(255,255,255,.35); margin-top: .25rem; }
+
+/* ── TABLE ── */
+.demo-table { width: 100%; border-collapse: collapse; font-size: .73rem; }
+.demo-table th { padding: .5rem .7rem; text-align: left; font-size: .6rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.25); border-bottom: 1px solid rgba(255,255,255,.06); }
+.demo-table td { padding: .55rem .7rem; border-bottom: 1px solid rgba(255,255,255,.04); color: rgba(255,255,255,.7); }
+.demo-table tr:last-child td { border-bottom: none; }
+.demo-table tr { transition: background .15s; }
+.demo-table tr:hover td { background: rgba(255,255,255,.03); }
+.name-cell { color: var(--white); font-weight: 500; }
+.badge { display: inline-block; padding: .15rem .5rem; border-radius: 100px; font-size: .62rem; font-weight: 600; }
+.badge.present { background: rgba(74,222,128,.15); color: #4ade80; }
+.badge.absent  { background: rgba(248,113,113,.15); color: #f87171; }
+.badge.late    { background: rgba(251,191,36,.15); color: #fbbf24; }
+.badge.paid    { background: rgba(74,222,128,.15); color: #4ade80; }
+.badge.unpaid  { background: rgba(248,113,113,.15); color: #f87171; }
+.badge.pending { background: rgba(251,191,36,.15); color: #fbbf24; }
+.badge.active  { background: rgba(74,222,128,.12); color: #4ade80; }
+
+/* ── ATTENDANCE GRID ── */
+.att-class-row { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.att-class-btn { padding: .35rem .8rem; border-radius: 5px; font-size: .72rem; font-weight: 600; border: 1px solid rgba(255,255,255,.12); background: transparent; color: rgba(255,255,255,.5); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+.att-class-btn.sel { background: rgba(201,147,58,.15); border-color: var(--gold); color: var(--gold); }
+.att-student { display: flex; align-items: center; justify-content: space-between; padding: .5rem .7rem; border-bottom: 1px solid rgba(255,255,255,.04); }
+.att-student:last-child { border-bottom: none; }
+.att-name { font-size: .75rem; color: var(--white); font-weight: 500; }
+.att-roll { font-size: .65rem; color: rgba(255,255,255,.3); }
+.att-btns { display: flex; gap: .3rem; }
+.att-btn { padding: .25rem .55rem; border-radius: 4px; font-size: .62rem; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .15s; }
+.att-btn.p { background: rgba(74,222,128,.15); color: #4ade80; }
+.att-btn.p.sel { background: rgba(74,222,128,.8); color: var(--ink); }
+.att-btn.a { background: rgba(248,113,113,.15); color: #f87171; }
+.att-btn.a.sel { background: rgba(248,113,113,.8); color: var(--white); }
+.att-btn.l { background: rgba(251,191,36,.15); color: #fbbf24; }
+.att-btn.l.sel { background: rgba(251,191,36,.8); color: var(--ink); }
+
+/* ── FEE CARD ── */
+.fee-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .7rem; margin-bottom: 1rem; }
+.fee-s-card { background: rgba(255,255,255,.04); border-radius: 8px; padding: .8rem; border: 1px solid rgba(255,255,255,.06); }
+.fee-s-n { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+.fee-s-l { font-size: .65rem; color: rgba(255,255,255,.35); margin-top: .2rem; }
+
+/* ── RESULT CARD ── */
+.result-card { background: rgba(255,255,255,.04); border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,.06); margin-bottom: .7rem; }
+.rc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: .7rem; }
+.rc-name { font-size: .85rem; font-weight: 600; color: var(--white); }
+.rc-class { font-size: .65rem; color: rgba(255,255,255,.35); margin-top: .1rem; }
+.rc-pct { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--gold); }
+.rc-subjects { display: grid; grid-template-columns: repeat(3,1fr); gap: .4rem; }
+.rc-sub { background: rgba(255,255,255,.04); border-radius: 5px; padding: .4rem .5rem; }
+.rc-sname { font-size: .6rem; color: rgba(255,255,255,.35); }
+.rc-marks { font-size: .72rem; font-weight: 600; color: var(--white); }
+
+/* ── PARENT PORTAL ── */
+.portal-card { background: rgba(255,255,255,.04); border-radius: 8px; padding: 1rem; border: 1px solid rgba(255,255,255,.06); margin-bottom: .7rem; }
+.pc-hdr { font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: .7rem; }
+.portal-fee-row { display: flex; justify-content: space-between; align-items: center; padding: .45rem 0; border-bottom: 1px solid rgba(255,255,255,.05); font-size: .76rem; }
+.portal-fee-row:last-child { border-bottom: none; }
+.pf-month { color: var(--white); }
+.pf-amt { color: rgba(255,255,255,.5); }
+
+/* ── WA NOTIFICATION ── */
+.wa-notif { background: #1a2f1a; border: 1px solid rgba(37,211,102,.2); border-radius: 8px; padding: .9rem 1rem; display: flex; gap: .7rem; align-items: flex-start; margin-top: .7rem; animation: popIn .4s ease; }
+@keyframes popIn { from { opacity:0; transform:scale(.96); } to { opacity:1; transform:none; } }
+.wa-icon { width: 28px; height: 28px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .7rem; font-weight: 700; color: var(--white); }
+.wa-body { flex: 1; }
+.wa-label { font-size: .62rem; color: #25d366; font-weight: 600; margin-bottom: .2rem; }
+.wa-msg { font-size: .72rem; color: rgba(255,255,255,.65); line-height: 1.55; }
+
+/* ── TYPING ANIMATION ── */
+.typing-cursor { display: inline-block; width: 2px; height: .85em; background: var(--gold); vertical-align: text-bottom; margin-left: 1px; animation: blink .7s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── PROGRESS BAR ── */
+.demo-progress { max-width: 960px; margin: 0 auto 1.5rem; padding: 0 4vw; }
+.progress-steps { display: flex; gap: 0; }
+.ps { flex: 1; padding: .5rem .3rem; text-align: center; font-size: .65rem; color: rgba(255,255,255,.3); border-bottom: 2px solid rgba(255,255,255,.1); cursor: pointer; transition: all .2s; }
+.ps:hover { color: rgba(255,255,255,.5); }
+.ps.done { color: rgba(255,255,255,.4); border-bottom-color: rgba(201,147,58,.4); }
+.ps.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+
+/* ── BOTTOM CTA ── */
+.demo-cta { text-align: center; padding: 4rem 5vw; border-top: 1px solid rgba(255,255,255,.07); }
+.demo-cta h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: .8rem; }
+.demo-cta h2 em { color: var(--gold); font-style: italic; }
+.demo-cta p { color: rgba(255,255,255,.45); font-size: .9rem; margin-bottom: 2rem; }
+.cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-lg { padding: .85rem 2rem; border-radius: 7px; font-size: .9rem; font-weight: 600; text-decoration: none; font-family: 'DM Sans', sans-serif; transition: all .2s; display: inline-block; }
+.btn-gold-lg { background: var(--gold); color: var(--white); }
+.btn-gold-lg:hover { background: #b07e2a; }
+.btn-wa-lg { background: #25d366; color: var(--white); }
+.btn-wa-lg:hover { background: #1da851; }
+
+@media(max-width:640px) {
+  .screen-body { flex-direction: column; }
+  .demo-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; overflow-x: auto; padding: .3rem; gap: .2rem; }
+  .sb-item { white-space: nowrap; border-left: none; border-bottom: 2px solid transparent; padding: .4rem .8rem; border-radius: 5px; }
+  .sb-item.active { border-left-color: transparent; border-bottom-color: var(--gold); }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .rc-subjects { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <div class="nav-links">
+    <a href="/#plans">Plans</a>
+    <a href="/#about">About</a>
+  </div>
+  <a href="/register" class="nav-cta">Register Now</a>
+</nav>
+
+<!-- HERO -->
+<div class="demo-hero">
+  <div class="demo-eyebrow">Interactive Demo</div>
+  <h1>See exactly what your school gets — <em>before you pay.</em></h1>
+  <p>Click through each module below. This is the actual interface your admin, teachers and parents will use — same design, same features, built fresh for your institution.</p>
+</div>
+
+<!-- MODULE TABS -->
+<div class="module-tabs">
+  <button class="tab-btn active" onclick="switchModule('dashboard')">Dashboard</button>
+  <button class="tab-btn" onclick="switchModule('students')">Students</button>
+  <button class="tab-btn" onclick="switchModule('attendance')">Attendance</button>
+  <button class="tab-btn" onclick="switchModule('fees')">Fees</button>
+  <button class="tab-btn" onclick="switchModule('results')">Results</button>
+  <button class="tab-btn" onclick="switchModule('parent')">Parent Portal</button>
+</div>
+
+<!-- PROGRESS -->
+<div class="demo-progress">
+  <div class="progress-steps" id="progress-steps">
+    <div class="ps active" onclick="switchModule('dashboard')">Dashboard</div>
+    <div class="ps" onclick="switchModule('students')">Students</div>
+    <div class="ps" onclick="switchModule('attendance')">Attendance</div>
+    <div class="ps" onclick="switchModule('fees')">Fees</div>
+    <div class="ps" onclick="switchModule('results')">Results</div>
+    <div class="ps" onclick="switchModule('parent')">Parent Portal</div>
+  </div>
+</div>
+
+<!-- SCREEN -->
+<div class="demo-stage">
+  <div class="screen-wrap">
+    <div class="screen-topbar">
+      <div class="topbar-dots">
+        <div class="topbar-dot r"></div>
+        <div class="topbar-dot y"></div>
+        <div class="topbar-dot g"></div>
+      </div>
+      <div class="topbar-url" id="topbar-url">yourschool.nextgensys.pk/admin</div>
+    </div>
+    <div class="screen-body">
+      <!-- SIDEBAR -->
+      <div class="demo-sidebar">
+        <div class="sb-logo">School <span>Admin</span></div>
+        <div class="sb-item active" id="sb-dashboard" onclick="switchModule('dashboard')"><div class="sb-dot"></div>Dashboard</div>
+        <div class="sb-item" id="sb-students" onclick="switchModule('students')"><div class="sb-dot"></div>Students</div>
+        <div class="sb-item" id="sb-attendance" onclick="switchModule('attendance')"><div class="sb-dot"></div>Attendance</div>
+        <div class="sb-item" id="sb-fees" onclick="switchModule('fees')"><div class="sb-dot"></div>Fee Management</div>
+        <div class="sb-item" id="sb-results" onclick="switchModule('results')"><div class="sb-dot"></div>Results</div>
+        <div class="sb-item" id="sb-timetable" onclick="switchModule('dashboard')"><div class="sb-dot"></div>Timetable</div>
+        <div class="sb-item" id="sb-leave" onclick="switchModule('parent')"><div class="sb-dot"></div>Leave Requests</div>
+        <div class="sb-item" id="sb-settings" onclick="switchModule('dashboard')"><div class="sb-dot"></div>Settings</div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="demo-content">
+
+        <!-- DASHBOARD -->
+        <div class="module-screen active" id="screen-dashboard">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">Good morning, Principal</div>
+              <div class="content-sub">Saturday, 27 June 2026</div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-c"><div class="stat-n green" id="d-students">847</div><div class="stat-l">Total Students</div></div>
+            <div class="stat-c"><div class="stat-n green" id="d-present">—</div><div class="stat-l">Present Today</div></div>
+            <div class="stat-c"><div class="stat-n gold" id="d-fees">PKR 2.4M</div><div class="stat-l">Fees Collected</div></div>
+            <div class="stat-c"><div class="stat-n red" id="d-pending">—</div><div class="stat-l">Pending Fees</div></div>
+          </div>
+          <table class="demo-table">
+            <thead><tr><th>Recent Activity</th><th>Module</th><th>Time</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="name-cell">Class 10A attendance marked</td><td>Attendance</td><td>8:32 AM</td><td><span class="badge present">Done</span></td></tr>
+              <tr><td class="name-cell">Sara Bibi — fee payment received</td><td>Fees</td><td>9:15 AM</td><td><span class="badge paid">Paid</span></td></tr>
+              <tr><td class="name-cell">Ahmad Raza — leave request</td><td>Leaves</td><td>9:44 AM</td><td><span class="badge pending">Pending</span></td></tr>
+              <tr><td class="name-cell">Annual result — Class 9 uploaded</td><td>Results</td><td>10:02 AM</td><td><span class="badge present">Done</span></td></tr>
+              <tr><td class="name-cell">Class 11B attendance marked</td><td>Attendance</td><td>10:30 AM</td><td><span class="badge present">Done</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- STUDENTS -->
+        <div class="module-screen" id="screen-students">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">All Students</div>
+              <div class="content-sub">847 students · Class 9 to 12</div>
+            </div>
+            <div style="display:flex;gap:.5rem">
+              <button class="btn-outline-w">Import CSV</button>
+              <button class="btn-demo btn-gold">+ Add Student</button>
+            </div>
+          </div>
+          <table class="demo-table">
+            <thead><tr><th>Roll No</th><th>Name</th><th>Class</th><th>Father Name</th><th>Phone</th><th>Status</th></tr></thead>
+            <tbody id="students-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- ATTENDANCE -->
+        <div class="module-screen" id="screen-attendance">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">Mark Attendance</div>
+              <div class="content-sub">27 June 2026 · Select class below</div>
+            </div>
+            <button class="btn-demo btn-green" id="save-att-btn" onclick="saveAttendance()">Save & Notify Parents</button>
+          </div>
+          <div class="att-class-row">
+            <button class="att-class-btn sel" onclick="selectClass('10A',this)">Class 10A</button>
+            <button class="att-class-btn" onclick="selectClass('10B',this)">Class 10B</button>
+            <button class="att-class-btn" onclick="selectClass('11A',this)">Class 11A</button>
+            <button class="att-class-btn" onclick="selectClass('9A',this)">Class 9A</button>
+          </div>
+          <div id="att-list"></div>
+          <div id="wa-notification" style="display:none"></div>
+        </div>
+
+        <!-- FEES -->
+        <div class="module-screen" id="screen-fees">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">Fee Management</div>
+              <div class="content-sub">June 2026</div>
+            </div>
+            <button class="btn-demo btn-gold">+ Add Fee</button>
+          </div>
+          <div class="fee-summary">
+            <div class="fee-s-card"><div class="fee-s-n" style="color:#4ade80">PKR 847,000</div><div class="fee-s-l">Total Collected</div></div>
+            <div class="fee-s-card"><div class="fee-s-n" style="color:#f87171">PKR 123,000</div><div class="fee-s-l">Pending</div></div>
+            <div class="fee-s-card"><div class="fee-s-n" style="color:#fbbf24">38</div><div class="fee-s-l">Defaulters</div></div>
+          </div>
+          <table class="demo-table">
+            <thead><tr><th>Student</th><th>Class</th><th>Month</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="fees-tbody"></tbody>
+          </table>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="module-screen" id="screen-results">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">Student Results</div>
+              <div class="content-sub">Annual Exam 2026</div>
+            </div>
+            <button class="btn-demo btn-gold">Upload CSV</button>
+          </div>
+          <div id="results-list"></div>
+        </div>
+
+        <!-- PARENT PORTAL -->
+        <div class="module-screen" id="screen-parent">
+          <div class="content-hdr">
+            <div>
+              <div class="content-title">Parent Portal</div>
+              <div class="content-sub">Viewed by parents on their phone</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+            <div>
+              <div class="portal-card">
+                <div class="pc-hdr">Student Info</div>
+                <div style="font-size:.8rem;color:var(--white);font-weight:600">Ahmed Raza Khan</div>
+                <div style="font-size:.68rem;color:rgba(255,255,255,.35);margin:.2rem 0 .6rem">Roll: 1001 · Class 10A</div>
+                <div style="display:flex;gap:.4rem"><span class="badge present">Active</span></div>
+              </div>
+              <div class="portal-card">
+                <div class="pc-hdr">Attendance — June</div>
+                <div style="display:flex;gap:.5rem;font-size:.75rem;margin-bottom:.5rem">
+                  <span style="color:#4ade80">Present: 18</span>
+                  <span style="color:#f87171">Absent: 2</span>
+                  <span style="color:#fbbf24">Late: 1</span>
+                </div>
+                <div style="background:rgba(255,255,255,.05);border-radius:100px;height:6px;overflow:hidden">
+                  <div style="background:#4ade80;width:84%;height:100%;border-radius:100px"></div>
+                </div>
+                <div style="font-size:.65rem;color:rgba(255,255,255,.3);margin-top:.3rem">84% attendance rate</div>
+              </div>
+            </div>
+            <div>
+              <div class="portal-card">
+                <div class="pc-hdr">Fee Status</div>
+                <div class="portal-fee-row"><span class="pf-month">April 2026</span><span class="pf-amt">PKR 3,500</span><span class="badge paid">Paid</span></div>
+                <div class="portal-fee-row"><span class="pf-month">May 2026</span><span class="pf-amt">PKR 3,500</span><span class="badge paid">Paid</span></div>
+                <div class="portal-fee-row"><span class="pf-month">June 2026</span><span class="pf-amt">PKR 3,500</span><span class="badge unpaid">Unpaid</span></div>
+                <button class="btn-demo btn-gold" style="width:100%;margin-top:.7rem;padding:.5rem">Pay via JazzCash / EasyPaisa</button>
+              </div>
+              <div class="portal-card">
+                <div class="pc-hdr">Latest Result</div>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div style="font-size:.78rem;font-weight:600;color:var(--white)">Mid-Term 2026</div>
+                    <div style="font-size:.65rem;color:rgba(255,255,255,.35)">Class 10A</div>
+                  </div>
+                  <div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--gold)">87%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /demo-content -->
+    </div><!-- /screen-body -->
+  </div><!-- /screen-wrap -->
+</div><!-- /demo-stage -->
+
+<!-- CTA -->
+<div class="demo-cta">
+  <h2>Ready to get this for your school? <em>It's simpler than you think.</em></h2>
+  <p>Free demo with your school's name on it. No payment until you're satisfied. Setup in under 4 weeks.</p>
+  <div class="cta-btns">
+    <a href="/register" class="btn-lg btn-gold-lg">Register Your School</a>
+    <a href="https://wa.me/92XXXXXXXXXX" class="btn-lg btn-wa-lg" target="_blank">WhatsApp Us</a>
+  </div>
+</div>
+
+<script>
+// ── Data ────────────────────────────────────────────────────────────────────
+const STUDENTS = [
+  { roll:'1001', name:'Ahmed Raza Khan', father:'Muhammad Raza', phone:'0300-1234567', class:'10A', status:'Active' },
+  { roll:'1002', name:'Sara Bibi', father:'Abdul Rehman', phone:'0300-9876543', class:'10A', status:'Active' },
+  { roll:'1003', name:'Usman Tariq', father:'Tariq Mehmood', phone:'0301-1112222', class:'9A', status:'Active' },
+  { roll:'1004', name:'Fatima Noor', father:'Noor Khan', phone:'0312-3334444', class:'11A', status:'Active' },
+  { roll:'1005', name:'Bilal Hassan', father:'Hassan Ali', phone:'0333-5556666', class:'10B', status:'Active' },
+  { roll:'1006', name:'Zara Malik', father:'Malik Javed', phone:'0321-7778888', class:'12A', status:'Active' },
+];
+const ATT = {
+  '10A': [
+    { roll:'1001', name:'Ahmed Raza Khan', status:'P' },
+    { roll:'1002', name:'Sara Bibi', status:null },
+    { roll:'1007', name:'Khalid Bashir', status:'P' },
+    { roll:'1008', name:'Amna Tariq', status:null },
+    { roll:'1009', name:'Zohaib Ali', status:'P' },
+  ],
+  '10B': [
+    { roll:'2001', name:'Hina Shah', status:null },
+    { roll:'2002', name:'Danish Mehmood', status:'P' },
+    { roll:'2003', name:'Sana Iqbal', status:null },
+  ],
+  '11A': [
+    { roll:'3001', name:'Fatima Noor', status:'P' },
+    { roll:'3002', name:'Asad Ullah', status:null },
+    { roll:'3003', name:'Mehwish Khan', status:'P' },
+  ],
+  '9A': [
+    { roll:'4001', name:'Usman Tariq', status:null },
+    { roll:'4002', name:'Rabia Bibi', status:'P' },
+    { roll:'4003', name:'Hamza Nawaz', status:null },
+  ]
+};
+const FEES = [
+  { name:'Ahmed Raza Khan', class:'10A', month:'June 2026', amount:'PKR 3,500', status:'Paid' },
+  { name:'Sara Bibi', class:'10A', month:'June 2026', amount:'PKR 3,500', status:'Unpaid' },
+  { name:'Khalid Bashir', class:'10A', month:'June 2026', amount:'PKR 3,500', status:'Pending' },
+  { name:'Fatima Noor', class:'11A', month:'June 2026', amount:'PKR 4,000', status:'Paid' },
+  { name:'Bilal Hassan', class:'10B', month:'June 2026', amount:'PKR 3,500', status:'Unpaid' },
+];
+const RESULTS = [
+  { name:'Ahmed Raza Khan', roll:'1001', class:'10A', pct:'91%', subjects:[{n:'Urdu',m:'88/100'},{n:'Math',m:'91/100'},{n:'Physics',m:'85/100'},{n:'English',m:'90/100'},{n:'Islamiyat',m:'95/100'},{n:'Pak Studies',m:'89/100'}] },
+  { name:'Sara Bibi', roll:'1002', class:'10A', pct:'78%', subjects:[{n:'Urdu',m:'76/100'},{n:'Math',m:'70/100'},{n:'Physics',m:'72/100'},{n:'English',m:'82/100'},{n:'Islamiyat',m:'88/100'},{n:'Pak Studies',m:'80/100'}] },
+];
+const URLS = {
+  dashboard: 'yourschool.nextgensys.pk/admin',
+  students:  'yourschool.nextgensys.pk/admin/students',
+  attendance:'yourschool.nextgensys.pk/admin/attendance',
+  fees:      'yourschool.nextgensys.pk/admin/fees',
+  results:   'yourschool.nextgensys.pk/admin/results',
+  parent:    'yourschool.nextgensys.pk/parent',
+};
+const MODULES = ['dashboard','students','attendance','fees','results','parent'];
+let attState = {};
+let currentAtt = '10A';
+
+// ── Populate tables ──────────────────────────────────────────────────────────
+function populateStudents() {
+  document.getElementById('students-tbody').innerHTML = STUDENTS.map(s => `
+    <tr>
+      <td>${s.roll}</td>
+      <td class="name-cell">${s.name}</td>
+      <td>${s.class}</td>
+      <td>${s.father}</td>
+      <td>${s.phone}</td>
+      <td><span class="badge active">${s.status}</span></td>
+    </tr>
+  `).join('');
+}
+function populateFees() {
+  document.getElementById('fees-tbody').innerHTML = FEES.map(f => `
+    <tr>
+      <td class="name-cell">${f.name}</td>
+      <td>${f.class}</td>
+      <td>${f.month}</td>
+      <td>${f.amount}</td>
+      <td><span class="badge ${f.status.toLowerCase()}">${f.status}</span></td>
+      <td>${f.status==='Unpaid'?'<button class="btn-demo btn-gold" style="padding:.25rem .6rem;font-size:.62rem">Remind</button>':f.status==='Pending'?'<button class="btn-demo btn-green" style="padding:.25rem .6rem;font-size:.62rem">Verify</button>':'—'}</td>
+    </tr>
+  `).join('');
+}
+function populateResults() {
+  document.getElementById('results-list').innerHTML = RESULTS.map(r => `
+    <div class="result-card">
+      <div class="rc-top">
+        <div><div class="rc-name">${r.name} <span style="font-size:.65rem;color:rgba(255,255,255,.3)">· Roll ${r.roll} · ${r.class}</span></div></div>
+        <div class="rc-pct">${r.pct}</div>
+      </div>
+      <div class="rc-subjects">${r.subjects.map(s=>`<div class="rc-sub"><div class="rc-sname">${s.n}</div><div class="rc-marks">${s.m}</div></div>`).join('')}</div>
+    </div>
+  `).join('');
+}
+function renderAttendance(cls) {
+  const students = ATT[cls];
+  document.getElementById('att-list').innerHTML = students.map(s => {
+    const st = attState[cls+s.roll] || s.status;
+    return `<div class="att-student">
+      <div><div class="att-name">${s.name}</div><div class="att-roll">Roll ${s.roll}</div></div>
+      <div class="att-btns">
+        <button class="att-btn p ${st==='P'?'sel':''}" onclick="markAtt('${cls}','${s.roll}','P',this)">P</button>
+        <button class="att-btn a ${st==='A'?'sel':''}" onclick="markAtt('${cls}','${s.roll}','A',this)">A</button>
+        <button class="att-btn l ${st==='L'?'sel':''}" onclick="markAtt('${cls}','${s.roll}','L',this)">L</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+function markAtt(cls, roll, status, btn) {
+  attState[cls+roll] = status;
+  const row = btn.closest('.att-btns');
+  row.querySelectorAll('.att-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('wa-notification').style.display = 'none';
+}
+function selectClass(cls, btn) {
+  currentAtt = cls;
+  document.querySelectorAll('.att-class-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  renderAttendance(cls);
+  document.getElementById('wa-notification').style.display = 'none';
+}
+function saveAttendance() {
+  const absentCount = ATT[currentAtt].filter(s => (attState[currentAtt+s.roll]||s.status) === 'A').length;
+  const notifEl = document.getElementById('wa-notification');
+  const btn = document.getElementById('save-att-btn');
+  btn.textContent = 'Saving...';
+  setTimeout(() => {
+    btn.textContent = 'Saved!';
+    btn.style.background = 'rgba(74,222,128,.5)';
+    notifEl.style.display = 'flex';
+    notifEl.innerHTML = `
+      <div class="wa-notif">
+        <div class="wa-icon">WA</div>
+        <div class="wa-body">
+          <div class="wa-label">WhatsApp Sent · ${absentCount} parent(s) notified</div>
+          <div class="wa-msg">Assalamu Alaikum! Aap k bachay ${currentAtt === '10A' ? 'Ahmed' : 'Usman'} ki aaj (27 June) ${currentAtt} mein haazri nahi hui. Please school se raabta karein. — Nextgen School System</div>
+        </div>
+      </div>
+    `;
+    setTimeout(() => { btn.textContent = 'Save & Notify Parents'; btn.style.background = ''; }, 3000);
+  }, 800);
+}
+
+// ── Dashboard animated counter ──────────────────────────────────────────────
+function animateCounter(id, target, prefix='') {
+  let val = 0; const step = Math.ceil(target/30);
+  const el = document.getElementById(id);
+  const timer = setInterval(() => {
+    val = Math.min(val+step, target);
+    el.textContent = prefix + val.toLocaleString();
+    if(val >= target) clearInterval(timer);
+  }, 40);
+}
+
+// ── Module switching ────────────────────────────────────────────────────────
+function switchModule(name) {
+  document.querySelectorAll('.module-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.ps').forEach((p,i) => {
+    const idx = MODULES.indexOf(name);
+    p.classList.remove('active','done');
+    if(i < idx) p.classList.add('done');
+    if(i === idx) p.classList.add('active');
+  });
+  const screen = document.getElementById('screen-' + name);
+  if(screen) screen.classList.add('active');
+  const sb = document.getElementById('sb-' + name);
+  if(sb) sb.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if(b.textContent.toLowerCase().includes(name) || (name==='parent'&&b.textContent.includes('Parent'))) b.classList.add('active');
+  });
+  document.getElementById('topbar-url').textContent = URLS[name] || URLS.dashboard;
+  if(name==='dashboard') {
+    setTimeout(() => { animateCounter('d-present',812); animateCounter('d-pending',38); }, 200);
+  }
+  if(name==='attendance') renderAttendance(currentAtt);
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────
+populateStudents();
+populateFees();
+populateResults();
+renderAttendance('10A');
+setTimeout(() => { animateCounter('d-present',812); animateCounter('d-pending',38); }, 600);
+</script>
+</body>
+</html>
