@@ -133,9 +133,10 @@ app.delete('/api/admin/registrations/:ref', adminGuard, (req, res) => {
 });
 
 // ── Pages ───────────────────────────────────────────────────────────────────
-app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public', 'register.html')));
-app.get('/admin',    (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
-app.get('/demo',     (req, res) => res.sendFile(path.join(__dirname, 'public', 'demo.html')));
+app.get('/register',       (req, res) => res.sendFile(path.join(__dirname, 'public', 'register.html')));
+app.get('/admin',          (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+app.get('/demo',           (req, res) => res.sendFile(path.join(__dirname, 'public', 'demo.html')));
+app.get('/what-we-build',  (req, res) => res.sendFile(path.join(__dirname, 'public', 'what-we-build.html')));
 app.use((req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 const PORT = process.env.PORT || 3000;

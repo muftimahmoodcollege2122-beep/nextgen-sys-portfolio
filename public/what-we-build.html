@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What We Can Build — Nextgen Sys</title>
+<meta name="description" content="Every module Nextgen Sys builds for Pakistani schools, colleges and universities. Attendance, fees, results, HR, transport, AI analytics and more.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  /* ── HERO ── */
+  .hero { padding: calc(64px + 4rem) 5vw 4rem; max-width: 800px; margin: 0 auto; text-align: center; }
+  .hero h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin-bottom: 1rem; }
+  .hero p { font-size: 1rem; color: var(--muted); line-height: 1.8; max-width: 560px; margin: 0 auto 2.5rem; }
+
+  /* ── PROBLEM STRIP ── */
+  .problem-strip { background: var(--ink); padding: 3.5rem 5vw; }
+  .ps-inner { max-width: 1160px; margin: 0 auto; }
+  .ps-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); color: var(--white); margin-bottom: 2rem; text-align: center; }
+  .problems-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+  .prob-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 1.2rem; }
+  .prob-old { font-size: .78rem; color: #f87171; font-weight: 500; margin-bottom: .6rem; display: flex; gap: .4rem; align-items: flex-start; }
+  .prob-old::before { content: '✗'; flex-shrink: 0; font-weight: 700; }
+  .prob-new { font-size: .78rem; color: #4ade80; font-weight: 500; display: flex; gap: .4rem; align-items: flex-start; }
+  .prob-new::before { content: '✓'; flex-shrink: 0; font-weight: 700; }
+
+  /* ── MODULES ── */
+  .modules-wrap { max-width: 1160px; margin: 0 auto; padding: 5rem 5vw; }
+  .plan-group { margin-bottom: 4rem; }
+  .plan-group-hdr { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1.5px solid var(--line); }
+  .plan-group-badge { padding: .35rem 1rem; border-radius: 100px; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .badge-silver { background: rgba(107,114,128,.15); color: var(--muted); }
+  .badge-gold   { background: rgba(201,147,58,.15); color: var(--gold); }
+  .badge-diamond{ background: rgba(96,165,250,.12); color: #60a5fa; }
+  .plan-group-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; }
+  .plan-group-price { font-size: .82rem; color: var(--muted); margin-left: auto; font-weight: 500; }
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem; }
+  .module-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; transition: box-shadow .25s, transform .2s; }
+  .module-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.07); transform: translateY(-2px); }
+  .mc-hdr { padding: 1.2rem 1.4rem 0; display: flex; align-items: center; gap: .8rem; }
+  .mc-num { width: 32px; height: 32px; border-radius: 8px; background: var(--paper); display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 700; color: var(--gold); border: 1px solid var(--line); flex-shrink: 0; letter-spacing: .03em; }
+  .mc-title { font-weight: 700; font-size: .9rem; }
+  .mc-replaces { font-size: .68rem; color: var(--muted); margin-top: .1rem; }
+  .mc-body { padding: .9rem 1.4rem 1.2rem; }
+  .mc-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; margin-bottom: .8rem; }
+  .mc-features { list-style: none; }
+  .mc-features li { font-size: .78rem; color: var(--ink); padding: .28rem 0; border-bottom: 1px solid var(--line); display: flex; gap: .5rem; }
+  .mc-features li:last-child { border-bottom: none; }
+  .mc-features li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-size: .72rem; margin-top: .05rem; }
+  .mc-savings { margin-top: .9rem; background: rgba(22,163,74,.06); border: 1px solid rgba(22,163,74,.15); border-radius: var(--radius); padding: .6rem .8rem; font-size: .74rem; color: #15803d; font-weight: 500; line-height: 1.5; }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-wrap { background: var(--ink); padding: 5rem 5vw; }
+  .comparison-inner { max-width: 960px; margin: 0 auto; }
+  .comparison-inner .section-title { color: var(--white); }
+  .comparison-inner .section-sub { color: rgba(255,255,255,.45); }
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 2.5rem; font-size: .8rem; }
+  .comp-table th { padding: .8rem 1rem; text-align: left; font-size: .68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.35); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .comp-table th:not(:first-child) { text-align: center; }
+  .comp-table td { padding: .6rem 1rem; border-bottom: 1px solid rgba(255,255,255,.05); color: rgba(255,255,255,.65); }
+  .comp-table td:not(:first-child) { text-align: center; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: rgba(255,255,255,.02); }
+  .check { color: #4ade80; font-weight: 700; font-size: .9rem; }
+  .cross { color: rgba(255,255,255,.2); font-size: .85rem; }
+  .comp-group-hdr td { background: rgba(255,255,255,.04); color: rgba(255,255,255,.4); font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .5rem 1rem; }
+  .comp-plan-hdr th { color: var(--white) !important; font-size: .82rem !important; letter-spacing: 0 !important; text-transform: none !important; padding: 1.2rem 1rem !important; }
+  .comp-plan-hdr th.gold-col { color: var(--gold) !important; }
+  .comp-plan-hdr th.diamond-col { color: #93c5fd !important; }
+
+  /* ── REGISTERS ELIMINATED ── */
+  .registers-wrap { max-width: 1160px; margin: 0 auto; padding: 5rem 5vw; }
+  .registers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .8rem; margin-top: 2.5rem; }
+  .reg-card { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.2rem; display: flex; align-items: center; gap: .8rem; }
+  .reg-icon { font-size: .7rem; font-weight: 700; color: var(--white); background: var(--ink); border-radius: 5px; padding: .2rem .45rem; flex-shrink: 0; letter-spacing: .04em; }
+  .reg-icon.silver { background: var(--muted); }
+  .reg-icon.gold { background: var(--gold); }
+  .reg-icon.diamond { background: #3b82f6; }
+  .reg-name { font-size: .8rem; font-weight: 500; color: var(--ink); line-height: 1.4; }
+
+  /* ── PROCESS ── */
+  .process-wrap { background: var(--paper); padding: 5rem 5vw; border-top: 1px solid var(--line); }
+  .process-inner { max-width: 960px; margin: 0 auto; }
+  .process-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 3rem; counter-reset: step; }
+  .proc-step { counter-increment: step; border-left: 2px solid var(--line); padding-left: 1.1rem; }
+  .proc-step::before { content: '0' counter(step); display: block; font-size: .62rem; font-weight: 600; letter-spacing: .1em; color: var(--gold); margin-bottom: .6rem; }
+  .proc-title { font-weight: 600; font-size: .88rem; margin-bottom: .35rem; }
+  .proc-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── CTA ── */
+  .cta-strip { background: var(--ink); text-align: center; padding: 5rem 5vw; }
+  .cta-strip h2 { font-family: 'DM Serif Display', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--white); margin-bottom: .8rem; }
+  .cta-strip h2 em { color: var(--gold); font-style: italic; }
+  .cta-strip p { color: rgba(255,255,255,.45); font-size: .92rem; margin-bottom: 2rem; }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  @media(max-width:768px) {
+    .modules-grid { grid-template-columns: 1fr; }
+    .comp-table th:nth-child(2), .comp-table td:nth-child(2) { display: none; }
+    .plan-group-hdr { flex-wrap: wrap; }
+    .plan-group-price { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="/demo">Live Demo</a></li>
+    <li><a href="/#plans">Plans</a></li>
+    <li><a href="/what-we-build">What We Build</a></li>
+    <li><a href="/#about">About</a></li>
+  </ul>
+  <div class="nav-end">
+    <a href="/register" class="btn btn-primary btn-sm">Register Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero reveal">
+  <div class="eyebrow" style="justify-content:center">Full Capability Overview</div>
+  <h1>Everything we can build for your institution.</h1>
+  <p>From a simple website to a complete enterprise ERP — every module we build, what it replaces, and exactly how much time it saves your staff every year.</p>
+  <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+    <a href="/demo" class="btn btn-primary">Try Live Demo</a>
+    <a href="/register" class="btn btn-ghost">Register Your School</a>
+  </div>
+</div>
+
+<!-- PROBLEM STRIP -->
+<div class="problem-strip">
+  <div class="ps-inner">
+    <h2 class="ps-title">The problems we were built to solve.</h2>
+    <div class="problems-grid">
+      <div class="prob-card reveal">
+        <div class="prob-old">Paper Attendance Registers — lost, damaged, time-consuming every morning</div>
+        <div class="prob-new">Digital attendance in under 2 minutes — SMS to parents instantly</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Handwritten Fee Receipts — duplicate errors, lost ledgers, no history</div>
+        <div class="prob-new">Auto-generated digital receipts, instant defaulter list, full history</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Printed Result Cards — days to calculate marks, type and distribute</div>
+        <div class="prob-new">Auto-calculated grades, PDF report cards parents download themselves</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Paper Notice Slips — printed, sent with students, usually lost or ignored</div>
+        <div class="prob-new">Instant portal notifications and SMS alerts to every parent</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">No Website — parents and students can't find school info online</div>
+        <div class="prob-new">Professional website with admissions, news, faculty and gallery</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Manual HR and Salary Sheets — calculated and typed monthly by hand</div>
+        <div class="prob-new">Digital HR profiles, auto salary slips, leave tracking in one dashboard</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Printed Timetables on boards — hard to update, easy to miss changes</div>
+        <div class="prob-new">Digital timetable per class — updated instantly, visible on every portal</div>
+      </div>
+      <div class="prob-card reveal">
+        <div class="prob-old">Physical Complaint Register — no tracking, complaints get ignored</div>
+        <div class="prob-new">Ticket system with auto-escalation to principal if unresolved</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULES -->
+<div class="modules-wrap">
+
+  <!-- SILVER -->
+  <div class="plan-group reveal">
+    <div class="plan-group-hdr">
+      <span class="plan-group-badge badge-silver">Silver Plan</span>
+      <h2 class="plan-group-title">Website & Basic Portals</h2>
+      <span class="plan-group-price">PKR 50,000 one-time</span>
+    </div>
+    <div class="modules-grid">
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">01</div><div><div class="mc-title">Public School Website</div><div class="mc-replaces">Replaces: Printed prospectus, paper brochures</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Multi-page, fully branded website with your institution's name, logo, colors and content. Parents find you online 24/7.</p>
+          <ul class="mc-features">
+            <li>Home page with banner, vision & mission</li>
+            <li>About page with history and management message</li>
+            <li>Programs/Classes page with full details</li>
+            <li>Faculty directory with names and subjects</li>
+            <li>Photo gallery for events and facilities</li>
+            <li>Contact page with Google Maps embed</li>
+            <li>Mobile responsive — works on any phone</li>
+          </ul>
+          <div class="mc-savings">Saves: PKR thousands spent on printed prospectus annually</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">02</div><div><div class="mc-title">Online Admission Enquiry</div><div class="mc-replaces">Replaces: Printed paper admission forms</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Parents submit admission enquiries directly from the website. All submissions collected in admin panel — no paper forms, no lost applications.</p>
+          <ul class="mc-features">
+            <li>Online form: name, class, parent name, phone, email</li>
+            <li>All submissions in admin inbox instantly</li>
+            <li>Filter by class, date, status</li>
+            <li>Mark as contacted, approved, rejected</li>
+          </ul>
+          <div class="mc-savings">Eliminates: All paper admission forms permanently</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">03</div><div><div class="mc-title">News, Events & Gallery</div><div class="mc-replaces">Replaces: Printed posters, notice boards, event circulars</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Admin posts news, events and photos from a simple panel. Updates appear on the website and all portals instantly — no printing, no distribution.</p>
+          <ul class="mc-features">
+            <li>News and announcements with date and category</li>
+            <li>Events page with upcoming dates and details</li>
+            <li>Photo gallery organized by event/album</li>
+            <li>Alumni page with notable graduate listings</li>
+          </ul>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">04</div><div><div class="mc-title">Admin Content Panel</div><div class="mc-replaces">Replaces: Calling a developer to update website</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Your admin updates the website themselves — no technical knowledge needed. Change text, add news, upload photos, manage admissions from a simple dashboard.</p>
+          <ul class="mc-features">
+            <li>Update home page content and images</li>
+            <li>Post and manage news and events</li>
+            <li>Manage admissions inbox</li>
+            <li>Create teacher, student and parent accounts</li>
+            <li>Post notice board announcements instantly</li>
+          </ul>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">05</div><div><div class="mc-title">Teacher, Student & Parent Portals</div><div class="mc-replaces">Replaces: Phone calls for basic information</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Separate login portals for every role. Teachers see their class. Students see their notices and profile. Parents see their child's information — reducing daily phone calls to school by 70%.</p>
+          <ul class="mc-features">
+            <li>Teacher: class dashboard, notices, student profiles</li>
+            <li>Student: personal dashboard, notices, profile</li>
+            <li>Parent: child overview, notices, multiple children support</li>
+            <li>Notice board visible across all portals instantly</li>
+          </ul>
+          <div class="mc-savings">Eliminates: 18,000+ printed notice slips per year</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOLD -->
+  <div class="plan-group reveal">
+    <div class="plan-group-hdr">
+      <span class="plan-group-badge badge-gold">Gold Plan</span>
+      <h2 class="plan-group-title">Complete School ERP</h2>
+      <span class="plan-group-price">PKR 100,000 one-time · includes everything in Silver</span>
+    </div>
+    <div class="modules-grid">
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">06</div><div><div class="mc-title">Attendance Management</div><div class="mc-replaces">Replaces: Daily paper attendance register permanently</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Teacher marks attendance digitally in under 2 minutes. Principal sees school-wide attendance in real time. Parents get SMS the same morning if their child is absent.</p>
+          <ul class="mc-features">
+            <li>Digital daily attendance — one click per student</li>
+            <li>Real-time school-wide visibility for principal</li>
+            <li>Auto monthly attendance report per student as PDF</li>
+            <li>Attendance percentage calculated automatically</li>
+            <li>SMS alert to parent same morning student is absent</li>
+            <li>Staff attendance marking separately</li>
+          </ul>
+          <div class="mc-savings">Saves: 667 hours/year · 20 teachers × 10 min/day × 200 days</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">07</div><div><div class="mc-title">Fee Management</div><div class="mc-replaces">Replaces: Fee ledger, receipt book, defaulter register</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Fully digital fee system. Cashier records payments in seconds. Auto-generated PDF receipts. Instant defaulter list. Principal sees collection status without asking anyone.</p>
+          <ul class="mc-features">
+            <li>Fee structure per class with custom fee heads</li>
+            <li>PDF receipt with logo and receipt number — auto-generated</li>
+            <li>Full fee payment history per student</li>
+            <li>Instant defaulter list — filter by class or amount</li>
+            <li>Automatic SMS reminder to fee defaulters</li>
+            <li>Daily collection and monthly class-wise reports</li>
+            <li>Discounts and waivers with reason logged</li>
+          </ul>
+          <div class="mc-savings">Saves: 700+ hours/year for cashier — equivalent to 87 working days</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">08</div><div><div class="mc-title">Online Fee Payment</div><div class="mc-replaces">Replaces: Cash queue at school, physical receipt books</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Parents pay school fee directly from the parent portal in under 60 seconds. No school visit. No cash. No queue. Fee status updates in admin instantly.</p>
+          <ul class="mc-features">
+            <li>EasyPaisa — mobile wallet, widest rural coverage in Pakistan</li>
+            <li>JazzCash — Pakistan's largest mobile financial service</li>
+            <li>Stripe — Visa and Mastercard debit/credit cards</li>
+            <li>Bank transfer with auto-confirmation</li>
+            <li>Partial payment with remaining balance tracked</li>
+            <li>Instant PDF receipt downloadable from portal</li>
+            <li>Payment notifications to parent and admin</li>
+          </ul>
+          <div class="mc-savings">Parents pay at midnight from home — school receives payment instantly</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">09</div><div><div class="mc-title">Exam & Result Management</div><div class="mc-replaces">Replaces: Mark sheets, result calculation, printed report cards</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Teachers enter marks digitally. System auto-calculates total, percentage, grade and class position. Branded PDF report card generated per student. Parents download from portal — no printing, no distribution.</p>
+          <ul class="mc-features">
+            <li>Exam setup with subjects and passing marks</li>
+            <li>Subject teachers enter marks — no spreadsheet needed</li>
+            <li>Auto-calculated percentage, grade (A+/A/B) and position</li>
+            <li>Full class result visible to principal instantly</li>
+            <li>Branded PDF report card per student — logo included</li>
+            <li>Parent downloads report card from portal</li>
+            <li>Full academic history per student across all exams</li>
+          </ul>
+          <div class="mc-savings">Saves: 3 days per exam → 3 hours data entry. 7.5 full working days per year</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">10</div><div><div class="mc-title">Timetable & Exam Schedule</div><div class="mc-replaces">Replaces: Handwritten timetable on whiteboard</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Digital class timetables per section. Exam schedules with subject, date, time and venue. One-click WhatsApp blast notifies all parents with the complete schedule instantly.</p>
+          <ul class="mc-features">
+            <li>Weekly timetable per class and section</li>
+            <li>Exam schedule — subject, date, time, venue</li>
+            <li>Changes update everywhere instantly</li>
+            <li>WhatsApp notification to all parents in one click</li>
+            <li>Visible on parent and student portal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAMOND -->
+  <div class="plan-group reveal">
+    <div class="plan-group-hdr">
+      <span class="plan-group-badge badge-diamond">Diamond Plan</span>
+      <h2 class="plan-group-title">Enterprise ERP</h2>
+      <span class="plan-group-price">PKR 150,000 one-time · includes everything in Gold</span>
+    </div>
+    <div class="modules-grid">
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">11</div><div><div class="mc-title">HR & Staff Management</div><div class="mc-replaces">Replaces: Physical staff files, salary register, leave book</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Complete digital HR system for every staff member. Contracts, salary structures, leave management and monthly salary slips — all in one dashboard. No more folders, no manual slip typing.</p>
+          <ul class="mc-features">
+            <li>Digital staff profiles — CNIC, qualifications, joining date</li>
+            <li>Employment contract upload and management</li>
+            <li>Salary structure with allowances and deductions</li>
+            <li>Auto-generated monthly salary slips as PDF</li>
+            <li>Leave requests from teacher panel — admin approves</li>
+            <li>Attendance-linked salary deductions automatically</li>
+            <li>Department management and payroll summary reports</li>
+          </ul>
+          <div class="mc-savings">Saves: 24–36 working days per year in HR admin alone</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">12</div><div><div class="mc-title">Transport Management</div><div class="mc-replaces">Replaces: Route registers, bus allocation sheets</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Full transport system — routes, vehicles, stops and student assignments. Parents see their child's bus and stop from the portal — reducing 20+ daily phone calls to the school.</p>
+          <ul class="mc-features">
+            <li>Route setup with stop names and sequence</li>
+            <li>Vehicle management with driver info and capacity</li>
+            <li>Student assigned to route and stop</li>
+            <li>Transport fee as separate head in fee module</li>
+            <li>Student list per route — ready for driver briefing</li>
+            <li>Parent sees child's bus and stop from portal</li>
+          </ul>
+          <div class="mc-savings">Saves: 50+ hours/year · Reassign student to route in 30 seconds</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">13</div><div><div class="mc-title">AI Analytics Dashboard</div><div class="mc-replaces">Replaces: Manual reports compiled by staff every month</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Your principal sees the full state of the institution in under 60 seconds — no manual reports, no data collection, no waiting. AI flags problems before they become crises.</p>
+          <ul class="mc-features">
+            <li>Enrollment trends month-by-month with growth chart</li>
+            <li>Attendance analytics — spot chronic absenteeism early</li>
+            <li>Fee collection vs outstanding comparison graph</li>
+            <li>Subject-wise and class-wise academic performance</li>
+            <li>At-risk student alerts — low attendance + declining marks</li>
+            <li>Principal KPI dashboard — all metrics in real time</li>
+          </ul>
+          <div class="mc-savings">Saves: 20+ working days per year on manual report compilation</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">14</div><div><div class="mc-title">Question Bank & Online Assessments</div><div class="mc-replaces">Replaces: Printed test papers, bubble sheets, manual grading</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Teachers build a question bank and create tests in 20 minutes instead of 2 hours. Students take MCQ tests online — auto-graded in seconds. Results visible immediately after submission.</p>
+          <ul class="mc-features">
+            <li>MCQ and subjective questions organized by subject and chapter</li>
+            <li>Auto-assembled randomized test papers from question bank</li>
+            <li>Students take tests from portal — MCQs auto-graded instantly</li>
+            <li>Subjective answer upload — teacher grades online</li>
+            <li>Per-question performance report — identify weak topics</li>
+            <li>Full assessment history per student</li>
+          </ul>
+          <div class="mc-savings">Saves: Test setting 2 hrs → 20 min · MCQ grading 3 hrs → 0 minutes</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">15</div><div><div class="mc-title">LMS — Notes & Assignments</div><div class="mc-replaces">Replaces: Printed notes, physical assignment notebooks</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Teachers upload notes once — thousands of students access from home on any device. Assignments posted digitally. Students submit online. Teachers grade with comments. Parents see homework status.</p>
+          <ul class="mc-features">
+            <li>PDF notes, documents, presentations per chapter</li>
+            <li>Video resource links per topic</li>
+            <li>Assignments with due date and file attachment</li>
+            <li>Student downloads and uploads submission digitally</li>
+            <li>Teacher grades and comments online</li>
+            <li>Parent sees assignments due and submission status</li>
+          </ul>
+          <div class="mc-savings">Saves: 100+ hours/year photocopying · Eliminates 10,000s of paper notes</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">16</div><div><div class="mc-title">Multi-Campus Support</div><div class="mc-replaces">Replaces: Manual coordination between branches</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Manage 2, 3 or more campuses from one super-admin login. Each campus has separate data. Owner sees combined enrollment, fees and attendance across all branches side by side.</p>
+          <ul class="mc-features">
+            <li>Separate students, teachers, classes and fees per campus</li>
+            <li>Centralized owner dashboard across all campuses</li>
+            <li>Campus-wise vs combined reporting</li>
+            <li>Each campus has its own portal experience</li>
+          </ul>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">17</div><div><div class="mc-title">Support Ticket System</div><div class="mc-replaces">Replaces: Physical complaint register, phone queue</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">Parents and staff raise queries from their portal. Admin assigns, tracks and resolves. Unresolved tickets auto-escalate to principal — nothing gets ignored.</p>
+          <ul class="mc-features">
+            <li>Parents raise complaints from portal — no gate queue</li>
+            <li>Staff raise internal IT or admin issues digitally</li>
+            <li>Admin assigns ticket, tracks status and resolution</li>
+            <li>Full complaint history with responses</li>
+            <li>Auto-escalation to principal if unresolved</li>
+          </ul>
+          <div class="mc-savings">Saves: 200+ hours/year on complaint handling</div>
+        </div>
+      </div>
+      <div class="module-card reveal">
+        <div class="mc-hdr"><div class="mc-num">18</div><div><div class="mc-title">3 Custom Features</div><div class="mc-replaces">Built to your institution's exact requirements</div></div></div>
+        <div class="mc-body">
+          <p class="mc-desc">No other agency gives you this. Up to 3 fully custom modules built and integrated into your system at no extra charge. You describe what you need in plain language — we build it.</p>
+          <ul class="mc-features">
+            <li>Hostel management — rooms, check-in/out, warden reports</li>
+            <li>Canteen system — menu, daily orders, points</li>
+            <li>Sports & co-curricular tracking</li>
+            <li>Custom report card and certificate templates</li>
+            <li>Vehicle GPS tracking integration</li>
+            <li>University semester system and GPA calculation</li>
+          </ul>
+          <div class="mc-savings">Included in Diamond price — no extra charge for up to 3 features</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /modules-wrap -->
+
+<!-- COMPARISON TABLE -->
+<div class="comparison-wrap">
+  <div class="comparison-inner">
+    <div class="section-hdr reveal">
+      <div class="eyebrow" style="color:rgba(201,147,58,.9)">Full Comparison</div>
+      <h2 class="section-title">Every feature, every plan.</h2>
+      <p class="section-sub">See exactly what you get at each price point.</p>
+    </div>
+    <table class="comp-table">
+      <thead>
+        <tr class="comp-plan-hdr">
+          <th style="color:rgba(255,255,255,.4)!important;font-size:.7rem!important;letter-spacing:.08em!important;text-transform:uppercase!important">Feature</th>
+          <th>Silver<br><span style="font-size:.7rem;color:rgba(255,255,255,.35);font-weight:400">PKR 50,000</span></th>
+          <th class="gold-col">Gold<br><span style="font-size:.7rem;color:rgba(201,147,58,.5);font-weight:400">PKR 100,000</span></th>
+          <th class="diamond-col">Diamond<br><span style="font-size:.7rem;color:rgba(96,165,250,.4);font-weight:400">PKR 150,000</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="comp-group-hdr"><td colspan="4">Website & Portals</td></tr>
+        <tr><td>Public Website (multi-page)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Online Admission Enquiry Form</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>News, Events & Gallery</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Faculty & Alumni Pages</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Mobile Responsive Design</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Admin, Teacher, Student & Parent Portals</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Notice Board (all portals)</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr class="comp-group-hdr"><td colspan="4">School Operations</td></tr>
+        <tr><td>Attendance Management + SMS Alerts</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Fee Management + Digital Receipts</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Online Fee Payment (EasyPaisa / JazzCash / Bank)</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Exam & Result Management</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Auto PDF Report Cards</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Timetable & Exam Schedule</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Leave Request System</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr class="comp-group-hdr"><td colspan="4">Enterprise Features</td></tr>
+        <tr><td>HR & Staff Management</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Salary Slips & Payroll</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Transport & Route Management</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>AI Analytics Dashboard</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Question Bank & Online Assessments</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>LMS — Notes & Assignment Upload</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Multi-Campus Support</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Support Ticket System</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Up to 3 Custom-Built Features</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr class="comp-group-hdr"><td colspan="4">Delivery & Support</td></tr>
+        <tr><td>Free Demo Before Payment</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Setup Fee</td><td colspan="3" style="text-align:center;color:rgba(255,255,255,.5)">Waived on all plans</td></tr>
+        <tr><td>1 Year Hosting Included</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>Training Sessions</td><td style="text-align:center;color:rgba(255,255,255,.5)">1</td><td style="text-align:center;color:rgba(255,255,255,.5)">2</td><td style="text-align:center;color:rgba(255,255,255,.5)">Unlimited</td></tr>
+        <tr><td>Free Support After Delivery</td><td style="text-align:center;color:rgba(255,255,255,.5)">1 month</td><td style="text-align:center;color:rgba(255,255,255,.5)">3 months</td><td style="text-align:center;color:rgba(255,255,255,.5)">6 months</td></tr>
+        <tr><td>Response Time</td><td style="text-align:center;color:rgba(255,255,255,.5)">48 hrs</td><td style="text-align:center;color:rgba(255,255,255,.5)">24 hrs</td><td style="text-align:center;color:rgba(255,255,255,.5)">Same day</td></tr>
+        <tr><td>Dedicated WhatsApp Line</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>Annual Renewal (optional)</td><td style="text-align:center;color:rgba(255,255,255,.5)">PKR 8,000</td><td style="text-align:center;color:rgba(255,255,255,.5)">PKR 15,000</td><td style="text-align:center;color:rgba(255,255,255,.5)">PKR 25,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REGISTERS ELIMINATED -->
+<div class="registers-wrap reveal">
+  <div class="section-hdr">
+    <div class="eyebrow">Paper Eliminated</div>
+    <h2 class="section-title">Every register your school can stop buying.</h2>
+    <p class="section-sub">These are the physical items each plan permanently eliminates from your institution — forever.</p>
+  </div>
+  <div class="registers-grid">
+    <div class="reg-card reveal"><div class="reg-icon silver">S</div><div class="reg-name">Printed school prospectus and brochures</div></div>
+    <div class="reg-card reveal"><div class="reg-icon silver">S</div><div class="reg-name">Paper admission enquiry forms</div></div>
+    <div class="reg-card reveal"><div class="reg-icon silver">S</div><div class="reg-name">Printed notice slips sent home with students</div></div>
+    <div class="reg-card reveal"><div class="reg-icon silver">S</div><div class="reg-name">Printed event announcements and posters</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Daily paper attendance register per class</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Monthly attendance summary register</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Physical fee ledger book</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Fee receipt books — carbon copy type</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Fee defaulter register</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Exam mark entry sheets</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Result calculation and compilation sheets</div></div>
+    <div class="reg-card reveal"><div class="reg-icon gold">G</div><div class="reg-name">Printed report cards distributed at school</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Physical HR and staff files (folders)</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Salary slip register and handwritten slips</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Leave application register</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Transport route register and bus sheets</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Printed MCQ test papers and bubble sheets</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Printed notes distributed to students</div></div>
+    <div class="reg-card reveal"><div class="reg-icon diamond">D</div><div class="reg-name">Physical complaint and grievance register</div></div>
+  </div>
+  <div style="display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)"><div class="reg-icon silver" style="width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center">S</div>Eliminated in Silver</div>
+    <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)"><div class="reg-icon gold" style="width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center">G</div>Eliminated in Gold</div>
+    <div style="display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted)"><div class="reg-icon diamond" style="width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center">D</div>Eliminated in Diamond</div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<div class="process-wrap">
+  <div class="process-inner">
+    <div class="section-hdr reveal">
+      <div class="eyebrow">How It Works</div>
+      <h2 class="section-title">Free demo before you pay a single rupee.</h2>
+      <p class="section-sub">The process is simple, transparent and low-risk for you.</p>
+    </div>
+    <div class="process-grid">
+      <div class="proc-step reveal"><div class="proc-title">Initial Contact</div><div class="proc-desc">WhatsApp or call us — tell us about your institution and what you need.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Free Consultation</div><div class="proc-desc">We understand your requirements, suggest the right plan, answer all questions.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Free Demo</div><div class="proc-desc">Live working demo with your school's name on it — test every module before any payment.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Agreement</div><div class="proc-desc">Simple scope document — what we build, timeline, payment terms. No surprises.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">50% Advance</div><div class="proc-desc">Pay 50% to start. We begin development and share progress regularly.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Build & Train</div><div class="proc-desc">We build your system, get your feedback, then train your admin and teachers.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Final Payment & Go Live</div><div class="proc-desc">Pay remaining 50% on delivery. Your institution is fully digital from day one.</div></div>
+      <div class="proc-step reveal"><div class="proc-title">Support Period</div><div class="proc-desc">Bug fixes, adjustments and guidance for 1, 3 or 6 months — depending on your plan.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <h2>Ready to eliminate every paper register <em>permanently?</em></h2>
+  <p>Free demo for every enquiry. No payment until you have seen it working with your school's name on it.</p>
+  <div class="cta-actions">
+    <a href="/register" class="btn btn-gold-lg" style="background:var(--gold);color:#fff;padding:.85rem 2rem;border-radius:7px;font-size:.9rem;font-weight:600;text-decoration:none;transition:background .2s">Register Your School</a>
+    <a href="/demo" class="btn btn-ghost" style="border:1.5px solid rgba(255,255,255,.2);color:var(--white);padding:.85rem 2rem;border-radius:7px;font-size:.9rem;font-weight:500;text-decoration:none;background:transparent">Try Live Demo</a>
+    <a href="https://wa.me/92XXXXXXXXXX" target="_blank" style="background:#25d366;color:#fff;padding:.85rem 2rem;border-radius:7px;font-size:.9rem;font-weight:600;text-decoration:none;transition:background .2s">WhatsApp Us</a>
+  </div>
+</div>
+
+<script>
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }), {threshold:.08});
+  document.querySelectorAll('.reveal').forEach((el,i) => {
+    io.observe(el);
+    const parent = el.closest('.modules-grid,.problems-grid,.registers-grid,.process-grid');
+    if(parent) el.style.transitionDelay = (Array.from(parent.querySelectorAll('.reveal')).indexOf(el) * 55) + 'ms';
+  });
+</script>
+</body>
+</html>
