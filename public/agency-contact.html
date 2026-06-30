@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Contact — Nextgen Sys</title>
+<link rel="stylesheet" href="/agency.css">
+<style>
+.page-hero { background: var(--olive); padding: 10rem 4vw 5rem; }
+.ph-inner { max-width: 1200px; margin: 0 auto; }
+.ph-breadcrumb { font-size: .72rem; color: rgba(255,255,255,.3); margin-bottom: 2rem; }
+.ph-breadcrumb a { color: rgba(255,255,255,.3); text-decoration: none; }
+.ph-breadcrumb span { margin: 0 .5rem; }
+.ph-title { font-size: clamp(3rem, 8vw, 7rem); color: var(--white); line-height: 1; }
+.ph-title .dim { color: rgba(255,255,255,.25); }
+.ph-sub { font-size: .95rem; color: rgba(255,255,255,.45); max-width: 480px; line-height: 1.75; margin-top: 2rem; }
+
+.contact-wrap { max-width: 1200px; margin: 0 auto; padding: 6rem 4vw; display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; }
+
+/* Left: info cards */
+.info-cards { display: flex; flex-direction: column; gap: 1rem; }
+.info-card { border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; transition: box-shadow .25s; }
+.info-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.06); }
+.ic-label { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .6rem; }
+.ic-value { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; margin-bottom: .3rem; }
+.ic-sub { font-size: .8rem; color: var(--muted); }
+.ic-link { color: var(--gold); text-decoration: none; font-size: .85rem; font-weight: 600; display: inline-flex; align-items: center; gap: .3rem; margin-top: .6rem; }
+.wa-card { background: var(--olive); border-color: var(--olive); }
+.wa-card .ic-label { color: rgba(255,255,255,.4); }
+.wa-card .ic-value { color: var(--white); }
+.wa-card .ic-sub { color: rgba(255,255,255,.5); }
+
+/* Right: form */
+.contact-form-wrap { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 2.6rem; }
+.cf-title { font-size: 1.5rem; margin-bottom: .5rem; }
+.cf-sub { font-size: .85rem; color: var(--muted); margin-bottom: 2rem; }
+.form-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+.fg { display: flex; flex-direction: column; gap: .4rem; }
+.fg.full { grid-column: span 2; }
+.fg label { font-size: .76rem; font-weight: 600; color: var(--ink); }
+.fg input, .fg select, .fg textarea {
+  font-family: 'DM Sans', sans-serif; font-size: .86rem; padding: .7rem .9rem;
+  border: 1.5px solid var(--line); border-radius: 8px; background: var(--cream);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,147,58,.12); background: var(--white); }
+.fg textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+.fg select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7063' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .9rem center; padding-right: 2.4rem; }
+.cf-submit { width: 100%; margin-top: .5rem; }
+.cf-note { font-size: .74rem; color: var(--muted); text-align: center; margin-top: 1rem; }
+.cf-success { display: none; text-align: center; padding: 2rem 1rem; }
+.cs-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(34,197,94,.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem; }
+.cs-icon svg { width: 24px; height: 24px; stroke: #16a34a; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Map/location strip */
+.location-strip { background: var(--cream); border-top: 1px solid var(--line); padding: 5rem 4vw; }
+.ls-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.ls-title { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 1rem; }
+.ls-desc { font-size: .9rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+.ls-hours { display: flex; flex-direction: column; gap: .6rem; }
+.ls-hour-row { display: flex; justify-content: space-between; font-size: .82rem; padding: .5rem 0; border-bottom: 1px solid var(--line); max-width: 320px; }
+.ls-map-placeholder { background: var(--olive); border-radius: 14px; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.3); font-family: 'Syne', sans-serif; font-weight: 700; }
+
+@media(max-width:900px) {
+  .contact-wrap { grid-template-columns: 1fr; }
+  .form-grid2 { grid-template-columns: 1fr; }
+  .fg.full { grid-column: span 1; }
+  .ls-inner { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav dark" id="main-nav">
+  <a href="/agency" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="/agency-services">Services</a></li>
+    <li><a href="/agency-work">Our Work</a></li>
+    <li><a href="/demo">Live Demo</a></li>
+    <li><a href="/agency-contact" class="active">Contact</a></li>
+  </ul>
+  <a href="/register" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="ph-inner">
+    <div class="ph-breadcrumb"><a href="/agency">Home</a><span>/</span>Contact</div>
+    <h1 class="display ph-title">LET'S<br><span class="dim">TALK.</span></h1>
+    <p class="ph-sub">Have a question before registering? Want to discuss a custom build? Reach out directly — Hassan responds personally, not a support queue.</p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-wrap">
+  <div class="info-cards reveal-left">
+    <div class="info-card wa-card">
+      <div class="ic-label">WhatsApp — Fastest Response</div>
+      <div class="ic-value">+92-XXX-XXXXXXX</div>
+      <div class="ic-sub">Usually replies within 2 hours during business hours</div>
+      <a href="https://wa.me/92XXXXXXXXXX" target="_blank" class="ic-link" style="color:var(--gold)">Message on WhatsApp →</a>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Email</div>
+      <div class="ic-value">info@nextgensys.pk</div>
+      <div class="ic-sub">For detailed enquiries and proposals</div>
+      <a href="mailto:info@nextgensys.pk" class="ic-link">Send an Email →</a>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Office Hours</div>
+      <div class="ic-value">Mon – Sat, 9AM – 6PM</div>
+      <div class="ic-sub">Pakistan Standard Time (PKT)</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">Location</div>
+      <div class="ic-value">D.I. Khan, KPK</div>
+      <div class="ic-sub">Pakistan — visits by appointment</div>
+    </div>
+  </div>
+
+  <div class="contact-form-wrap reveal">
+    <div id="cf-form-state">
+      <h2 class="heading cf-title">Send us a message</h2>
+      <p class="cf-sub">Tell us about your institution or project. We'll get back to you within 2 hours.</p>
+      <form id="contact-form">
+        <div class="form-grid2">
+          <div class="fg"><label>Your Name <span style="color:#dc2626">*</span></label><input type="text" id="c-name" placeholder="Full name"></div>
+          <div class="fg"><label>Phone / WhatsApp <span style="color:#dc2626">*</span></label><input type="tel" id="c-phone" placeholder="03XX-XXXXXXX"></div>
+          <div class="fg full"><label>Email Address</label><input type="email" id="c-email" placeholder="you@example.com"></div>
+          <div class="fg full"><label>I'm interested in <span style="color:#dc2626">*</span></label>
+            <select id="c-subject">
+              <option value="">Select one...</option>
+              <option>Silver Plan — Website & Portals</option>
+              <option>Gold Plan — Complete School ERP</option>
+              <option>Diamond Plan — Enterprise ERP</option>
+              <option>Custom Software Development</option>
+              <option>General Question</option>
+            </select>
+          </div>
+          <div class="fg full"><label>Message <span style="color:#dc2626">*</span></label><textarea id="c-message" placeholder="Tell us about your institution or project..."></textarea></div>
+        </div>
+        <div id="cf-error" style="font-size:.78rem;color:#dc2626;min-height:1rem;margin-bottom:.5rem"></div>
+        <button type="submit" class="btn btn-dark cf-submit" id="cf-submit-btn">Send Message</button>
+        <p class="cf-note">Or skip the form — <a href="https://wa.me/92XXXXXXXXXX" style="color:var(--gold);text-decoration:none;font-weight:600">message us on WhatsApp</a> directly.</p>
+      </form>
+    </div>
+    <div class="cf-success" id="cf-success-state">
+      <div class="cs-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+      <h2 class="heading" style="font-size:1.4rem;margin-bottom:.6rem">Message Sent</h2>
+      <p style="font-size:.86rem;color:var(--muted);line-height:1.7;max-width:320px;margin:0 auto 1.5rem">Thank you for reaching out. We'll respond within 2 hours during business hours.</p>
+      <a href="/agency" class="btn btn-outline">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATION -->
+<div class="location-strip">
+  <div class="ls-inner">
+    <div class="reveal-left">
+      <div class="label label-bracket" style="margin-bottom:1rem">Based In</div>
+      <h2 class="heading ls-title">D.I. Khan, KPK, Pakistan</h2>
+      <p class="ls-desc">We work with institutions across Pakistan remotely, with a local presence advantage for schools in D.I. Khan and surrounding KPK districts. Site visits available by appointment.</p>
+      <div class="ls-hours">
+        <div class="ls-hour-row"><span>Monday – Friday</span><strong>9:00 AM – 6:00 PM</strong></div>
+        <div class="ls-hour-row"><span>Saturday</span><strong>9:00 AM – 2:00 PM</strong></div>
+        <div class="ls-hour-row"><span>Sunday</span><strong>Closed</strong></div>
+      </div>
+    </div>
+    <div class="ls-map-placeholder reveal">D.I. KHAN, KPK</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Nextgen <span>Sys.</span></div>
+        <p class="footer-tagline">Custom school management software for Pakistani educational institutions. Built from scratch. One-time payment.</p>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><a href="/agency">Home</a><a href="/agency-services">Services</a><a href="/agency-work">Our Work</a><a href="/agency-contact">Contact</a></div>
+      <div class="footer-col"><h4>Build</h4><a href="/what-we-build">All 18 Modules</a><a href="/demo">Live Demo</a><a href="/register">Register School</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:info@nextgensys.pk">info@nextgensys.pk</a><a href="#">+92-XXX-XXXXXXX</a><a href="#">D.I. Khan, KPK</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Nextgen Sys. · Hassan Mainkhel</span></div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+    nav.classList.toggle('dark', window.scrollY <= 80);
+  });
+  const io = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);} }), {threshold:.1});
+  document.querySelectorAll('.reveal,.reveal-left').forEach(el => io.observe(el));
+
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('c-name').value.trim();
+    const phone = document.getElementById('c-phone').value.trim();
+    const subject = document.getElementById('c-subject').value;
+    const message = document.getElementById('c-message').value.trim();
+    const err = document.getElementById('cf-error');
+    if(!name || !phone || !subject || !message) { err.textContent = 'Please fill all required fields.'; return; }
+    err.textContent = '';
+    const btn = document.getElementById('cf-submit-btn');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('cf-form-state').style.display = 'none';
+      document.getElementById('cf-success-state').style.display = 'block';
+    }, 1000);
+  });
+</script>
+</body>
+</html>

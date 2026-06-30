@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Services — Nextgen Sys</title>
+<link rel="stylesheet" href="/agency.css">
+<style>
+.page-hero { background: var(--olive); padding: 10rem 4vw 5rem; }
+.ph-inner { max-width: 1200px; margin: 0 auto; }
+.ph-breadcrumb { font-size: .72rem; color: rgba(255,255,255,.3); margin-bottom: 2rem; }
+.ph-breadcrumb a { color: rgba(255,255,255,.3); text-decoration: none; }
+.ph-breadcrumb span { margin: 0 .5rem; }
+.ph-title { font-size: clamp(3rem, 8vw, 7rem); color: var(--white); line-height: 1; }
+.ph-title .dim { color: rgba(255,255,255,.25); }
+.ph-meta { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 3rem; flex-wrap: wrap; gap: 1rem; }
+.ph-sub { font-size: .95rem; color: rgba(255,255,255,.45); max-width: 440px; line-height: 1.75; }
+
+/* Plans */
+.plans-section { max-width: 1200px; margin: 0 auto; padding: 6rem 4vw; }
+.ps-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4rem; flex-wrap: wrap; gap: 1.5rem; }
+.ps-title { font-size: clamp(2rem, 4vw, 3rem); }
+.ps-sub { font-size: .88rem; color: var(--muted); max-width: 340px; line-height: 1.75; }
+.plans-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem; }
+.plan-card { border: 1.5px solid var(--line); border-radius: 16px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: box-shadow .25s; }
+.plan-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,.08); }
+.plan-card.feat { border-color: var(--gold); }
+.plan-card-top { padding: 2rem; border-bottom: 1px solid var(--line); }
+.plan-card.feat .plan-card-top { background: var(--olive); }
+.pc-badge { position: absolute; top: -1px; right: 2rem; background: var(--gold); color: var(--white); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .25rem .75rem; border-radius: 0 0 8px 8px; }
+.pc-tier { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+.plan-card.feat .pc-tier { color: var(--gold); }
+.pc-price { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.4rem; line-height: 1; margin-bottom: .25rem; }
+.plan-card.feat .pc-price { color: var(--white); }
+.pc-note { font-size: .72rem; color: var(--muted); }
+.plan-card.feat .pc-note { color: rgba(255,255,255,.4); }
+.plan-card-body { padding: 1.6rem 2rem; flex: 1; display: flex; flex-direction: column; }
+.pc-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.4rem; }
+.pc-feats { list-style: none; flex: 1; }
+.pc-feats li { font-size: .8rem; padding: .38rem 0; border-bottom: 1px solid var(--line); display: flex; gap: .5rem; align-items: flex-start; }
+.pc-feats li:last-child { border-bottom: none; }
+.pc-feats li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-size: .72rem; margin-top: .06rem; }
+.pc-cta { margin-top: 1.8rem; }
+.plan-card.feat .pc-feats li { color: var(--ink); }
+
+/* Services detail */
+.services-detail { background: var(--olive); padding: 6rem 4vw; }
+.sd-inner { max-width: 1200px; margin: 0 auto; }
+.sd-hdr { margin-bottom: 4rem; }
+.sd-title { font-size: clamp(2rem, 4vw, 3rem); color: var(--white); }
+.sd-title .dim { color: rgba(255,255,255,.3); }
+.services-accordion { }
+.svc { border-bottom: 1px solid rgba(255,255,255,.08); }
+.svc:first-child { border-top: 1px solid rgba(255,255,255,.08); }
+.svc-hdr { display: flex; align-items: center; gap: 1.5rem; padding: 1.6rem 0; cursor: pointer; }
+.svc-num { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 700; color: var(--gold); letter-spacing: .1em; width: 36px; flex-shrink: 0; }
+.svc-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(.9rem, 1.8vw, 1.3rem); color: var(--white); flex: 1; }
+.svc-plan { font-size: .7rem; color: rgba(255,255,255,.3); background: rgba(255,255,255,.06); padding: .22rem .7rem; border-radius: 100px; }
+.svc-toggle { width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.5); font-size: .9rem; transition: all .25s; flex-shrink: 0; }
+.svc.open .svc-toggle { background: var(--gold); border-color: var(--gold); color: var(--white); transform: rotate(45deg); }
+.svc-body { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s; }
+.svc.open .svc-body { max-height: 600px; padding-bottom: 1.6rem; }
+.svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; padding-left: calc(36px + 1.5rem); }
+.svc-desc { font-size: .85rem; color: rgba(255,255,255,.5); line-height: 1.75; }
+.svc-features { list-style: none; }
+.svc-features li { font-size: .78rem; color: rgba(255,255,255,.55); padding: .3rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .5rem; }
+.svc-features li:last-child { border-bottom: none; }
+.svc-features li::before { content: '—'; color: var(--gold); flex-shrink: 0; font-size: .7rem; }
+.svc-saves { margin-top: .8rem; font-size: .76rem; color: rgba(74,222,128,.7); font-style: italic; }
+
+@media(max-width:900px) {
+  .plans-row { grid-template-columns: 1fr; }
+  .svc-grid { grid-template-columns: 1fr; padding-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav dark" id="main-nav">
+  <a href="/agency" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="/agency-services" class="active">Services</a></li>
+    <li><a href="/agency-work">Our Work</a></li>
+    <li><a href="/demo">Live Demo</a></li>
+    <li><a href="/agency-contact">Contact</a></li>
+  </ul>
+  <a href="/register" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="ph-inner">
+    <div class="ph-breadcrumb"><a href="/agency">Home</a><span>/</span>Services</div>
+    <h1 class="display ph-title">OUR<br><span class="dim">SERVICES</span></h1>
+    <div class="ph-meta">
+      <p class="ph-sub">Everything we build for Pakistani educational institutions — from a simple website to a complete enterprise ERP with 18 modules.</p>
+      <a href="/what-we-build" class="btn btn-outline-lt">View All 18 Modules →</a>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS -->
+<div class="plans-section">
+  <div class="ps-hdr reveal">
+    <h2 class="display ps-title">THREE PLANS.<br>ONE COMMITMENT.</h2>
+    <p class="ps-sub">Every plan is built from scratch for your institution. One-time payment, 1 year hosting included, free demo before you commit.</p>
+  </div>
+  <div class="plans-row">
+    <div class="plan-card reveal">
+      <div class="plan-card-top">
+        <div class="pc-tier">Silver Plan</div>
+        <div class="pc-price">PKR 50,000</div>
+        <div class="pc-note">One-time · 1 year hosting</div>
+      </div>
+      <div class="plan-card-body">
+        <p class="pc-desc">Professional website and basic portals — the foundation every school needs to have an online presence.</p>
+        <ul class="pc-feats">
+          <li>Multi-page branded school website</li>
+          <li>Online admission enquiry form</li>
+          <li>News, events and photo gallery</li>
+          <li>Faculty and alumni pages</li>
+          <li>Admin, teacher, student and parent portals</li>
+          <li>Notice board across all portals</li>
+          <li>1 month free support</li>
+          <li>1 training session</li>
+        </ul>
+        <div class="pc-cta"><a href="/register?plan=silver" class="btn btn-outline" style="width:100%;justify-content:center">Select Silver →</a></div>
+      </div>
+    </div>
+
+    <div class="plan-card feat reveal">
+      <div class="pc-badge">Most Popular</div>
+      <div class="plan-card-top">
+        <div class="pc-tier">Gold Plan</div>
+        <div class="pc-price" style="color:var(--white)">PKR 100,000</div>
+        <div class="pc-note">One-time · 1 year hosting</div>
+      </div>
+      <div class="plan-card-body">
+        <p class="pc-desc">Complete school ERP — eliminates every paper register your institution runs on today.</p>
+        <ul class="pc-feats">
+          <li>Everything in Silver</li>
+          <li>Digital attendance with WhatsApp parent alerts</li>
+          <li>Full fee management and digital receipts</li>
+          <li>Online payment — EasyPaisa and JazzCash</li>
+          <li>Exam and result management</li>
+          <li>Auto-generated branded PDF report cards</li>
+          <li>Timetable and exam schedule with WA blast</li>
+          <li>Student leave request system</li>
+          <li>Year-end class promotion</li>
+          <li>3 months free support</li>
+        </ul>
+        <div class="pc-cta"><a href="/register?plan=gold" class="btn btn-gold" style="width:100%;justify-content:center">Select Gold →</a></div>
+      </div>
+    </div>
+
+    <div class="plan-card reveal">
+      <div class="plan-card-top">
+        <div class="pc-tier">Diamond Plan</div>
+        <div class="pc-price">PKR 150,000</div>
+        <div class="pc-note">One-time · 1 year hosting</div>
+      </div>
+      <div class="plan-card-body">
+        <p class="pc-desc">Full institution ERP with HR, transport, AI analytics, LMS and up to 3 custom-built features.</p>
+        <ul class="pc-feats">
+          <li>Everything in Gold</li>
+          <li>HR and staff management with salary slips</li>
+          <li>Transport and route management</li>
+          <li>AI analytics dashboard</li>
+          <li>Question bank and online assessments</li>
+          <li>LMS — notes, assignments, submissions</li>
+          <li>Multi-campus support</li>
+          <li>Support ticket system</li>
+          <li>Up to 3 custom-built features</li>
+          <li>6 months support · dedicated WhatsApp</li>
+        </ul>
+        <div class="pc-cta"><a href="/register?plan=diamond" class="btn btn-outline" style="width:100%;justify-content:center">Select Diamond →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES DETAIL -->
+<div class="services-detail">
+  <div class="sd-inner">
+    <div class="sd-hdr reveal">
+      <div class="label" style="color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.4rem;margin-bottom:1rem">[ All Services ]</div>
+      <h2 class="display sd-title">EVERY MODULE<br><span class="dim">WE BUILD.</span></h2>
+    </div>
+
+    <div class="services-accordion">
+      <div class="svc open reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">01</span>
+          <span class="svc-name">School Management System</span>
+          <span class="svc-plan">All Plans</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Complete student, teacher and admin portal system. Student records, roll numbers, class assignments, bulk CSV import and full academic history — all in one dashboard.<div class="svc-saves">Replaces: Every physical register at your front office</div></div>
+            <ul class="svc-features">
+              <li>Student profiles, roll numbers, class and section</li>
+              <li>Bulk CSV import for existing student lists</li>
+              <li>Teacher accounts with class assignment</li>
+              <li>Parent portal — fees, attendance, results from phone</li>
+              <li>Admin dashboard with school-wide visibility</li>
+              <li>Year-end class promotion with alumni auto-add</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">02</span>
+          <span class="svc-name">Attendance Management</span>
+          <span class="svc-plan">Gold · Diamond</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Teacher marks attendance digitally in under 2 minutes. Principal sees real-time school-wide attendance. WhatsApp alert to parent the same morning their child is absent.<div class="svc-saves">Saves: 667 hours/year — 20 teachers × 10 min/day × 200 days</div></div>
+            <ul class="svc-features">
+              <li>Digital daily attendance — one click per student</li>
+              <li>Real-time school-wide view for principal</li>
+              <li>WhatsApp alert to parent when student absent</li>
+              <li>Monthly attendance report PDF per student</li>
+              <li>Percentage calculated automatically</li>
+              <li>Staff attendance managed separately</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">03</span>
+          <span class="svc-name">Fee Management & Online Payment</span>
+          <span class="svc-plan">Gold · Diamond</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Fully digital fee system with auto-generated PDF receipts, real-time defaulter lists and online payment directly from the parent portal via EasyPaisa, JazzCash or bank transfer.<div class="svc-saves">Saves: 700+ hours/year for cashier — equivalent to 87 working days</div></div>
+            <ul class="svc-features">
+              <li>Fee structure per class with custom heads</li>
+              <li>Auto-generated PDF receipt with logo</li>
+              <li>Instant defaulter list filter by class or amount</li>
+              <li>SMS reminder to fee defaulters automatically</li>
+              <li>EasyPaisa, JazzCash and bank transfer payment</li>
+              <li>Downloadable receipt from parent portal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">04</span>
+          <span class="svc-name">Results & PDF Report Cards</span>
+          <span class="svc-plan">Gold · Diamond</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Teachers enter marks digitally. System auto-calculates total, percentage, grade and class position. Branded PDF report card generated per student — parents download from portal, no printing needed.<div class="svc-saves">Saves: 3 days calculation per exam → 3 hours data entry</div></div>
+            <ul class="svc-features">
+              <li>Subject teachers enter marks from their panel</li>
+              <li>Auto-calculated percentage, grade and position</li>
+              <li>Branded PDF report card per student</li>
+              <li>Parent downloads card from portal directly</li>
+              <li>Full academic history across all exams</li>
+              <li>KPK Board grading scale (A+/A/B/C/D/F)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">05</span>
+          <span class="svc-name">Timetable & Exam Schedule</span>
+          <span class="svc-plan">Gold · Diamond</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Digital class timetables per section. Exam schedules with subject, date, time and venue. One-click WhatsApp blast notifies every parent with the complete schedule instantly.</div>
+            <ul class="svc-features">
+              <li>Weekly timetable per class and section</li>
+              <li>Exam schedule with subject, date, time, venue</li>
+              <li>Changes update everywhere instantly</li>
+              <li>WhatsApp blast to all parents in one click</li>
+              <li>Visible on parent and student portal</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="svc reveal">
+        <div class="svc-hdr" onclick="toggleSvc(this)">
+          <span class="svc-num">06</span>
+          <span class="svc-name">HR, Transport & AI Analytics</span>
+          <span class="svc-plan">Diamond</span>
+          <div class="svc-toggle">+</div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-grid">
+            <div class="svc-desc">Complete staff HR system with salary slips, leave management and attendance-linked deductions. Transport with route, vehicle and student assignment. AI dashboard shows the principal the full state of the institution in 60 seconds.<div class="svc-saves">Saves: 24–36 working days/year in HR admin alone</div></div>
+            <ul class="svc-features">
+              <li>Digital staff profiles and contracts</li>
+              <li>Auto salary slips with allowances and deductions</li>
+              <li>Leave requests with principal approval</li>
+              <li>Route, vehicle and student transport assignment</li>
+              <li>AI analytics — enrollment, fee collection, at-risk students</li>
+              <li>Multi-campus consolidated dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div class="cta-inner reveal">
+    <h2 class="display cta-title">NOT SURE<br>WHICH <span class="accent">PLAN?</span></h2>
+    <p class="cta-sub">Tell us about your school and we'll recommend the right plan. Free consultation, no commitment.</p>
+    <div class="cta-actions">
+      <a href="/register" class="btn btn-gold">Register & Get Demo</a>
+      <a href="/agency-contact" class="btn btn-outline-lt">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Nextgen <span>Sys.</span></div>
+        <p class="footer-tagline">Custom school management software for Pakistani educational institutions. Built from scratch. One-time payment.</p>
+      </div>
+      <div class="footer-col"><h4>Pages</h4><a href="/agency">Home</a><a href="/agency-services">Services</a><a href="/agency-work">Our Work</a><a href="/agency-contact">Contact</a></div>
+      <div class="footer-col"><h4>Build</h4><a href="/what-we-build">All 18 Modules</a><a href="/demo">Live Demo</a><a href="/register">Register School</a></div>
+      <div class="footer-col"><h4>Contact</h4><a href="mailto:info@nextgensys.pk">info@nextgensys.pk</a><a href="#">+92-XXX-XXXXXXX</a><a href="#">D.I. Khan, KPK</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Nextgen Sys. · Hassan Mainkhel</span></div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+    nav.classList.toggle('dark', window.scrollY <= 80);
+  });
+  function toggleSvc(hdr) {
+    const svc = hdr.closest('.svc');
+    const isOpen = svc.classList.contains('open');
+    document.querySelectorAll('.svc').forEach(s => s.classList.remove('open'));
+    if(!isOpen) svc.classList.add('open');
+  }
+  const io = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);} }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

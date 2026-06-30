@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Nextgen Sys — School Management Software, D.I. Khan</title>
+<meta name="description" content="Custom school management software for Pakistani institutions. Attendance, fees, results, portals — built from scratch. One-time payment.">
+<link rel="stylesheet" href="/agency.css">
+<style>
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 4vw 5rem;
+  background: linear-gradient(160deg, #1c2b1a 0%, #0d1a0c 100%);
+}
+.hero-bg-text {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(80px, 14vw, 200px);
+  color: rgba(255,255,255,.03); white-space: nowrap; pointer-events: none;
+  letter-spacing: -.04em; user-select: none;
+}
+.hero-inner { max-width: 1200px; width: 100%; margin: 0 auto; position: relative; z-index: 1; }
+.hero-top { display: flex; align-items: flex-start; justify-content: space-between; padding-top: 100px; margin-bottom: auto; }
+.hero-tagline { font-size: .78rem; color: rgba(255,255,255,.4); letter-spacing: .1em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.12); padding: .4rem .9rem; border-radius: 100px; }
+.hero-stat-card { background: rgba(255,255,255,.07); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 1.2rem 1.6rem; color: var(--white); }
+.hsc-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; margin-bottom: .2rem; }
+.hsc-label { font-size: .72rem; color: rgba(255,255,255,.45); }
+.hero-h1 { font-size: clamp(3rem, 8vw, 7rem); color: var(--white); margin: 3rem 0 2rem; }
+.hero-h1 .accent { color: var(--gold); }
+.hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.hero-sub { font-size: 1rem; color: rgba(255,255,255,.55); max-width: 420px; line-height: 1.75; }
+.hero-actions { display: flex; gap: .8rem; flex-shrink: 0; }
+.hero-scroll { position: absolute; right: 4vw; bottom: 5rem; display: flex; flex-direction: column; align-items: center; gap: .5rem; }
+.hero-scroll span { font-size: .64rem; color: rgba(255,255,255,.3); letter-spacing: .1em; text-transform: uppercase; writing-mode: vertical-rl; }
+.scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.3)); }
+/* Floating card */
+.float-card {
+  position: absolute; right: 4vw; top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,.08); backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.12); border-radius: 14px;
+  padding: 1.4rem; width: 260px; color: var(--white);
+}
+.fc-location { display: flex; align-items: center; gap: .4rem; font-size: .68rem; color: rgba(255,255,255,.45); margin-bottom: .8rem; }
+.fc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: .4rem; }
+.fc-desc { font-size: .74rem; color: rgba(255,255,255,.5); line-height: 1.55; }
+.fc-arrow { float: right; width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .75rem; }
+
+/* ── MARQUEE ── */
+.marquee-wrap { background: var(--gold); padding: 1rem 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 20s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); padding: 0 2.5rem; letter-spacing: .05em; text-transform: uppercase; }
+.marquee-item::after { content: '·'; margin-left: 2.5rem; opacity: .5; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── INTRO STRIP ── */
+.intro { max-width: 1200px; margin: 0 auto; padding: 6rem 4vw; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.intro-label { display: flex; align-items: center; gap: .5rem; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.5rem; }
+.intro-label::before, .intro-label::after { content: '|'; opacity: .4; }
+.intro h2 { font-size: clamp(2rem, 3.5vw, 3rem); margin-bottom: 0; }
+.intro h2 .dim { color: var(--muted); }
+.intro-right p { color: var(--muted); font-size: .95rem; line-height: 1.8; margin-bottom: 1.5rem; }
+.intro-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+.is { border-top: 1.5px solid var(--line); padding-top: 1rem; }
+.is-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; line-height: 1; margin-bottom: .3rem; }
+.is-num span { color: var(--gold); font-size: 1.2rem; }
+.is-label { font-size: .76rem; color: var(--muted); }
+
+/* ── SERVICES PREVIEW ── */
+.services-strip { background: var(--olive); padding: 6rem 4vw; }
+.ss-inner { max-width: 1200px; margin: 0 auto; }
+.ss-hdr { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem; }
+.ss-title { font-size: clamp(2rem, 4vw, 3.5rem); color: var(--white); max-width: 480px; }
+.ss-desc { font-size: .88rem; color: rgba(255,255,255,.45); max-width: 300px; line-height: 1.75; }
+.services-list { list-style: none; }
+.service-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 0; border-bottom: 1px solid var(--line-lt);
+  gap: 1rem; cursor: default; transition: background .2s;
+  padding-left: .5rem; padding-right: .5rem; border-radius: var(--r);
+}
+.service-row:first-child { border-top: 1px solid var(--line-lt); }
+.service-row:hover { background: rgba(255,255,255,.04); }
+.sr-num { font-family: 'Syne', sans-serif; font-size: .7rem; font-weight: 600; color: var(--gold); letter-spacing: .08em; width: 40px; flex-shrink: 0; }
+.sr-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(.9rem, 1.8vw, 1.3rem); color: var(--white); flex: 1; }
+.sr-tag { font-size: .7rem; color: rgba(255,255,255,.35); background: rgba(255,255,255,.06); border-radius: 100px; padding: .25rem .75rem; white-space: nowrap; }
+
+/* ── HOW IT WORKS ── */
+.hiw { max-width: 1200px; margin: 0 auto; padding: 6rem 4vw; }
+.hiw-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4rem; }
+.hiw-title { font-size: clamp(2rem, 4vw, 3.5rem); max-width: 420px; }
+.hiw-title .dim { color: var(--muted); }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; counter-reset: step; }
+.step { border-top: 2px solid var(--line); padding-top: 1.4rem; counter-increment: step; }
+.step::before { content: '0' counter(step); font-family: 'Syne', sans-serif; font-weight: 700; font-size: .7rem; letter-spacing: .1em; color: var(--gold); display: block; margin-bottom: .8rem; }
+.step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: .5rem; }
+.step-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; }
+
+/* ── FEATURED PROJECT ── */
+.project-feat { background: var(--olive); margin: 0; padding: 6rem 4vw; }
+.pf-inner { max-width: 1200px; margin: 0 auto; }
+.pf-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3rem; }
+.pf-label { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); display: flex; gap: .4rem; align-items: center; }
+.pf-label::before, .pf-label::after { content: '['; opacity: .4; }
+.pf-label::after { content: ']'; }
+.project-card {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; overflow: hidden;
+}
+.pc-screen { background: #0d1a0c; padding: 2.5rem 2rem; position: relative; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between; }
+.pc-screen-inner { font-family: 'DM Sans', monospace; font-size: .72rem; line-height: 1.9; }
+.pcs-topbar { display: flex; gap: .35rem; margin-bottom: 1rem; }
+.pcs-dot { width: 8px; height: 8px; border-radius: 50%; }
+.pcs-dot.r{background:#ff5f57}.pcs-dot.y{background:#febc2e}.pcs-dot.g{background:#28c840}
+.pcs-url { font-size: .65rem; background: rgba(255,255,255,.06); border-radius: 3px; padding: .25rem .7rem; color: rgba(255,255,255,.25); margin-bottom: 1rem; }
+.pcs-sec { font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.2); margin: .6rem 0 .2rem; }
+.pcs-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.04); padding: .2rem 0; color: rgba(255,255,255,.5); }
+.pcs-val { font-weight: 600; }
+.pcs-val.g{color:#28c840}.pcs-val.r{color:#ff5f57}.pcs-val.y{color:#febc2e}.pcs-val.gold{color:var(--gold)}
+.pc-info { padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between; }
+.pci-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
+.pci-tag { background: rgba(255,255,255,.08); color: rgba(255,255,255,.5); border-radius: 100px; padding: .2rem .7rem; font-size: .68rem; }
+.pci-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.5rem); color: var(--white); margin-bottom: 1rem; line-height: 1.05; }
+.pci-desc { font-size: .85rem; color: rgba(255,255,255,.45); line-height: 1.75; margin-bottom: 2rem; }
+.pci-list { list-style: none; margin-bottom: 2rem; }
+.pci-list li { font-size: .78rem; color: rgba(255,255,255,.55); padding: .32rem 0; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; gap: .5rem; }
+.pci-list li:last-child { border-bottom: none; }
+.pci-list li::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+
+/* ── VALUES ── */
+.values { max-width: 1200px; margin: 0 auto; padding: 6rem 4vw; }
+.values-hdr { margin-bottom: 3.5rem; }
+.values-hdr h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+.values-hdr h2 .dim { color: var(--muted); }
+.values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.value-card { border: 1px solid var(--line); border-radius: 14px; padding: 2rem; transition: box-shadow .25s; }
+.value-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,.07); }
+.vc-icon { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
+.vc-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.vc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .95rem; margin-bottom: .5rem; }
+.vc-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+
+/* ── ABOUT STRIP ── */
+.about-strip { background: var(--cream); padding: 6rem 4vw; border-top: 1px solid var(--line); }
+.as-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.as-photo-wrap { position: relative; }
+.as-photo { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top; border-radius: 14px; }
+.as-photo-tag { position: absolute; bottom: 1.5rem; left: 1.5rem; background: var(--white); border-radius: 10px; padding: .8rem 1.1rem; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+.apt-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: .88rem; margin-bottom: .1rem; }
+.apt-role { font-size: .7rem; color: var(--muted); }
+.as-text h2 { font-size: clamp(2rem, 3.5vw, 3rem); margin-bottom: 1.4rem; }
+.as-text p { color: var(--muted); font-size: .92rem; line-height: 1.8; margin-bottom: 1rem; }
+
+/* ── CTA ── */
+.cta-strip { background: var(--olive); padding: 6rem 4vw; text-align: center; }
+.cta-inner { max-width: 700px; margin: 0 auto; }
+.cta-title { font-size: clamp(2.2rem, 5vw, 4rem); color: var(--white); margin-bottom: 1rem; }
+.cta-title .accent { color: var(--gold); }
+.cta-sub { font-size: .95rem; color: rgba(255,255,255,.45); margin-bottom: 2.5rem; line-height: 1.75; }
+.cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+@media(max-width:900px) {
+  .intro { grid-template-columns: 1fr; gap: 2.5rem; }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .project-card { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+  .as-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .float-card { display: none; }
+  .hiw-hdr { flex-direction: column; gap: 1rem; }
+}
+@media(max-width:560px) {
+  .hero-h1 { font-size: clamp(2.4rem, 10vw, 4rem); }
+  .steps-grid { grid-template-columns: 1fr; }
+  .intro-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav dark" id="main-nav">
+  <a href="/agency" class="nav-logo">Nextgen <span>Sys.</span></a>
+  <ul class="nav-links">
+    <li><a href="/agency-services">Services</a></li>
+    <li><a href="/agency-work">Our Work</a></li>
+    <li><a href="/demo">Live Demo</a></li>
+    <li><a href="/agency-contact">Contact</a></li>
+  </ul>
+  <a href="/register" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">NEXTGEN</div>
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-tagline">Software Agency · D.I. Khan, Pakistan</div>
+      <div class="hero-stat-card reveal">
+        <div class="hsc-num">3+</div>
+        <div class="hsc-label">Schools running live</div>
+      </div>
+    </div>
+
+    <h1 class="display hero-h1 reveal">
+      WE BUILD<br>SCHOOL<br><span class="accent">SYSTEMS</span><br>THAT WORK.
+    </h1>
+
+    <div class="hero-bottom reveal">
+      <p class="hero-sub">Custom school management software for Pakistani educational institutions. One-time payment, no monthly fees, built from scratch — your name, your design, your data.</p>
+      <div class="hero-actions">
+        <a href="/demo" class="btn btn-gold">Try Live Demo</a>
+        <a href="/register" class="btn btn-outline-lt">Register School</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating card -->
+  <div class="float-card reveal">
+    <div class="fc-location">📍 St. Helen's High School & College</div>
+    <div class="fc-title">Gold Plan — Live in Production</div>
+    <div class="fc-desc">847 students · attendance, fees, results, portals — fully digital.</div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Student Management</span>
+    <span class="marquee-item">Fee Automation</span>
+    <span class="marquee-item">Digital Attendance</span>
+    <span class="marquee-item">Parent Portal</span>
+    <span class="marquee-item">PDF Report Cards</span>
+    <span class="marquee-item">EasyPaisa / JazzCash</span>
+    <span class="marquee-item">WhatsApp Alerts</span>
+    <span class="marquee-item">School Website</span>
+    <span class="marquee-item">Teacher Portal</span>
+    <span class="marquee-item">Exam Management</span>
+    <span class="marquee-item">Student Management</span>
+    <span class="marquee-item">Fee Automation</span>
+    <span class="marquee-item">Digital Attendance</span>
+    <span class="marquee-item">Parent Portal</span>
+    <span class="marquee-item">PDF Report Cards</span>
+    <span class="marquee-item">EasyPaisa / JazzCash</span>
+    <span class="marquee-item">WhatsApp Alerts</span>
+    <span class="marquee-item">School Website</span>
+    <span class="marquee-item">Teacher Portal</span>
+    <span class="marquee-item">Exam Management</span>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="reveal-left">
+    <div class="intro-label">Values</div>
+    <h2 class="display">WE ARE<br><span class="dim">DIFFERENT</span><br>IN EVERY WAY.</h2>
+  </div>
+  <div class="reveal">
+    <p>We don't resell templates. We don't use monthly subscription traps. Every system we build is custom — your institution's name, branding and workflow built from scratch.</p>
+    <p>We are a small, focused team from D.I. Khan that understands the Pakistani education market — KPK Board grading, local payment methods, and the real budget constraints of schools outside the major cities.</p>
+    <a href="/agency-services" class="btn btn-dark" style="margin-top:.5rem">See All Services →</a>
+    <div class="intro-stats">
+      <div class="is"><div class="is-num">18<span>+</span></div><div class="is-label">Modules we build</div></div>
+      <div class="is"><div class="is-num">0<span>₨</span></div><div class="is-label">Monthly fees, ever</div></div>
+      <div class="is"><div class="is-num">4<span>wk</span></div><div class="is-label">Average delivery</div></div>
+      <div class="is"><div class="is-num">50<span>%</span></div><div class="is-label">Advance only, rest on delivery</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- SERVICES PREVIEW -->
+<div class="services-strip">
+  <div class="ss-inner">
+    <div class="ss-hdr reveal">
+      <h2 class="display ss-title">WHAT WE BUILD FOR YOUR SCHOOL.</h2>
+      <p class="ss-desc">From a simple website to a complete enterprise ERP — every module built fresh for your institution.</p>
+    </div>
+    <ul class="services-list">
+      <li class="service-row reveal">
+        <span class="sr-num">01</span>
+        <span class="sr-title">School Management System</span>
+        <span class="sr-tag">Silver / Gold / Diamond</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+      <li class="service-row reveal">
+        <span class="sr-num">02</span>
+        <span class="sr-title">Fee & Payment Management</span>
+        <span class="sr-tag">Gold / Diamond</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+      <li class="service-row reveal">
+        <span class="sr-num">03</span>
+        <span class="sr-title">Attendance + WhatsApp Alerts</span>
+        <span class="sr-tag">Gold / Diamond</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+      <li class="service-row reveal">
+        <span class="sr-num">04</span>
+        <span class="sr-title">Results & PDF Report Cards</span>
+        <span class="sr-tag">Gold / Diamond</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+      <li class="service-row reveal">
+        <span class="sr-num">05</span>
+        <span class="sr-title">HR, Transport & AI Analytics</span>
+        <span class="sr-tag">Diamond</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+      <li class="service-row reveal">
+        <span class="sr-num">06</span>
+        <span class="sr-title">Custom Software Development</span>
+        <span class="sr-tag">Any Plan</span>
+        <a href="/agency-services" class="btn-arrow btn-arrow-dark">↗</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="hiw">
+  <div class="hiw-hdr reveal">
+    <h2 class="display hiw-title">SIMPLE STEPS<br><span class="dim">FOR GREAT WORK.</span></h2>
+    <div class="label label-bracket">How it works</div>
+  </div>
+  <div class="steps-grid">
+    <div class="step reveal"><div class="step-title">Free Consultation</div><div class="step-desc">Tell us about your school. We understand your problems and suggest the right plan — no pressure.</div></div>
+    <div class="step reveal"><div class="step-title">Live Demo</div><div class="step-desc">See a working demo with your institution's name on it. Test every module before paying a single rupee.</div></div>
+    <div class="step reveal"><div class="step-title">Build & Train</div><div class="step-desc">50% advance to start. We build, keep you updated, then train your admin and teachers at delivery.</div></div>
+    <div class="step reveal"><div class="step-title">Go Live</div><div class="step-desc">Pay remaining 50% on delivery. Your institution is fully digital from day one. Support period begins.</div></div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- FEATURED PROJECT -->
+<div class="project-feat">
+  <div class="pf-inner">
+    <div class="pf-hdr reveal">
+      <div class="label" style="color:rgba(255,255,255,.35);display:flex;gap:.4rem">[ Featured Project ]</div>
+      <a href="/agency-work" class="btn btn-outline-lt btn-sm" style="font-size:.78rem;padding:.45rem 1rem;border-radius:100px">See All Work →</a>
+    </div>
+    <div class="project-card reveal">
+      <div class="pc-screen">
+        <div>
+          <div class="pcs-topbar"><div class="pcs-dot r"></div><div class="pcs-dot y"></div><div class="pcs-dot g"></div></div>
+          <div class="pcs-url">sthelens.railway.app / admin</div>
+          <div class="pcs-sec">Dashboard Overview</div>
+          <div class="pcs-row"><span>Total Students</span><span class="pcs-val gold">847</span></div>
+          <div class="pcs-row"><span>Present Today</span><span class="pcs-val g">812</span></div>
+          <div class="pcs-row"><span>Fee Collected (June)</span><span class="pcs-val gold">PKR 2.4M</span></div>
+          <div class="pcs-row"><span>Pending Verification</span><span class="pcs-val y">3</span></div>
+          <div class="pcs-sec">Attendance — Class 10A</div>
+          <div class="pcs-row"><span>Ahmed Raza Khan</span><span class="pcs-val g">Present</span></div>
+          <div class="pcs-row"><span>Sara Bibi</span><span class="pcs-val r">Absent</span></div>
+          <div class="pcs-row"><span>Usman Tariq</span><span class="pcs-val y">Late</span></div>
+          <div class="pcs-sec">WhatsApp Dispatched</div>
+          <div class="pcs-row"><span>Absent parent alerts</span><span class="pcs-val g">1 sent</span></div>
+        </div>
+        <div style="margin-top:1.5rem;font-size:.65rem;color:rgba(255,255,255,.2)">Gold Plan · Railway · Node.js + SQLite</div>
+      </div>
+      <div class="pc-info">
+        <div>
+          <div class="pci-tags"><span class="pci-tag">Gold Plan</span><span class="pci-tag">Node.js</span><span class="pci-tag">SQLite</span><span class="pci-tag">Railway</span><span class="pci-tag">Live</span></div>
+          <h3 class="pci-title">ST. HELEN'S HIGH SCHOOL &amp; COLLEGE</h3>
+          <p class="pci-desc">Complete multi-module school management system — admin panel, teacher portal, parent portal and public website — built from scratch, replacing all paper registers.</p>
+          <ul class="pci-list">
+            <li>847 students — digital records, bulk import</li>
+            <li>Daily attendance with parent WhatsApp alerts</li>
+            <li>Fee management with EasyPaisa & JazzCash</li>
+            <li>Auto PDF report cards per student</li>
+            <li>Timetable, exam schedule, leave requests</li>
+            <li>Year-end class promotion module</li>
+            <li>Weekly auto-backup with one-click restore</li>
+          </ul>
+        </div>
+        <a href="/agency-work" class="btn btn-outline-lt" style="align-self:flex-start">View All Projects →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VALUES -->
+<div class="values">
+  <div class="values-hdr reveal">
+    <div class="label label-bracket" style="margin-bottom:1rem">Why Choose Us</div>
+    <h2 class="display">WE BUILD IT<br><span class="dim">RIGHT THE FIRST TIME.</span></h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card reveal">
+      <div class="vc-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="vc-title">Built from scratch, for you</div>
+      <div class="vc-desc">No templates. No resold platforms. Every system uses your institution's name, logo, colors and workflow from the very first line of code.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="vc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="vc-title">Delivered in 4 weeks</div>
+      <div class="vc-desc">Average delivery from contract to go-live is 4 weeks. You get progress updates throughout — no disappearing after the advance payment.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="vc-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <div class="vc-title">One-time payment only</div>
+      <div class="vc-desc">No monthly subscription fees. No per-user charges. No hidden costs. You pay once — Silver, Gold or Diamond — and own your system permanently.</div>
+    </div>
+    <div class="value-card reveal">
+      <div class="vc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="vc-title">We understand your market</div>
+      <div class="vc-desc">KPK Board grading, EasyPaisa and JazzCash payments, Urdu support, rural school budgets — we've built for this market and know what actually works.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="as-inner">
+    <div class="as-photo-wrap reveal-left">
+      <img src="/hassan.jpg" alt="Hassan Mainkhel" class="as-photo">
+      <div class="as-photo-tag">
+        <div class="apt-name">Hassan Mainkhel</div>
+        <div class="apt-role">Founder, Nextgen Sys. · D.I. Khan</div>
+      </div>
+    </div>
+    <div class="as-text reveal">
+      <div class="label label-bracket" style="margin-bottom:1.2rem">About the Founder</div>
+      <h2 class="display">THE PERSON<br>BUILDING<br>YOUR SYSTEM.</h2>
+      <p>I'm a full-stack developer from D.I. Khan. I started Nextgen Sys. after watching schools waste hours every day on paper registers that should have been digitized years ago.</p>
+      <p>Every system I ship is one I'm personally responsible for — design, development, deployment and support. When you message me, you talk to me directly, not a support queue.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem">
+        <a href="/agency-contact" class="btn btn-dark">Work With Me</a>
+        <a href="/what-we-build" class="btn btn-outline">See All 18 Modules</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-strip">
+  <div class="cta-inner reveal">
+    <h2 class="display cta-title">READY TO<br>GO <span class="accent">DIGITAL?</span></h2>
+    <p class="cta-sub">Free demo with your school's name. No payment until you've seen it working. Setup in under 4 weeks.</p>
+    <div class="cta-actions">
+      <a href="/register" class="btn btn-gold">Register Your School</a>
+      <a href="/demo" class="btn btn-outline-lt">Try Live Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Nextgen <span>Sys.</span></div>
+        <p class="footer-tagline">Custom school management software for Pakistani educational institutions. Built from scratch. One-time payment. No monthly fees.</p>
+        <a href="https://wa.me/92XXXXXXXXXX" style="color:var(--gold);font-size:.8rem;text-decoration:none">WhatsApp Us →</a>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="/agency">Home</a>
+        <a href="/agency-services">Services</a>
+        <a href="/agency-work">Our Work</a>
+        <a href="/agency-contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>What We Build</h4>
+        <a href="/what-we-build">All 18 Modules</a>
+        <a href="/demo">Live Demo</a>
+        <a href="/#plans">Plans & Pricing</a>
+        <a href="/register">Register School</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:info@nextgensys.pk">info@nextgensys.pk</a>
+        <a href="https://wa.me/92XXXXXXXXXX">+92-XXX-XXXXXXX</a>
+        <a href="#">D.I. Khan, KPK, Pakistan</a>
+        <a href="#">Mon–Sat, 9AM–6PM PKT</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Nextgen Sys. · Hassan Mainkhel · D.I. Khan, Pakistan</span>
+      <div style="display:flex;gap:1.5rem">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 80) { nav.classList.add('scrolled'); nav.classList.remove('dark'); }
+    else { nav.classList.remove('scrolled'); nav.classList.add('dark'); }
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if(e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .1 });
+  document.querySelectorAll('.reveal, .reveal-left').forEach((el, i) => {
+    io.observe(el);
+    const parent = el.closest('.steps-grid, .values-grid, .services-list, .intro-stats');
+    if(parent) el.style.transitionDelay = (Array.from(parent.querySelectorAll('.reveal,.reveal-left')).indexOf(el) * 80) + 'ms';
+  });
+</script>
+</body>
+</html>

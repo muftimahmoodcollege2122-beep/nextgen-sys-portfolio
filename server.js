@@ -137,6 +137,10 @@ app.get('/register',       (req, res) => res.sendFile(path.join(__dirname, 'publ
 app.get('/admin',          (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
 app.get('/demo',           (req, res) => res.sendFile(path.join(__dirname, 'public', 'demo.html')));
 app.get('/what-we-build',  (req, res) => res.sendFile(path.join(__dirname, 'public', 'what-we-build.html')));
+app.get('/agency',          (req, res) => res.sendFile(path.join(__dirname, 'public', 'agency-index.html')));
+app.get('/agency-services', (req, res) => res.sendFile(path.join(__dirname, 'public', 'agency-services.html')));
+app.get('/agency-work',     (req, res) => res.sendFile(path.join(__dirname, 'public', 'agency-work.html')));
+app.get('/agency-contact',  (req, res) => res.sendFile(path.join(__dirname, 'public', 'agency-contact.html')));
 app.use((req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 const PORT = process.env.PORT || 3000;
